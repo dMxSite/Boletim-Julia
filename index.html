@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boletim Shinobi</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Tema Konoha (Padrão) */
+      --theme-bg: #ecfdf5;
+      /* Símbolo da Folha minimalista de fundo */
+      --theme-bg-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 80 Q 20 60 20 40 A 30 30 0 0 1 80 40 Q 80 60 50 80 Z M50 80 L 50 95' fill='none' stroke='%2310b981' stroke-width='4' stroke-opacity='0.15'/%3E%3Cpath d='M35 45 Q 50 30 65 45 Q 50 60 35 45' fill='none' stroke='%2310b981' stroke-width='3' stroke-opacity='0.15'/%3E%3C/svg%3E");
+      --theme-header-text: #047857;
+      --theme-subheader-text: #b91c1c;
+      --theme-primary-accent: #10b981;
+      --theme-secondary-accent: #ef4444;
+      --theme-card-bg: rgba(255, 255, 255, 0.95);
+      --theme-card-header-bg: #d1fae5;
+      --theme-card-border: #a7f3d0;
+      --theme-table-header-bg: #d1fae5;
+      --theme-table-header-text: #065f46;
+      --theme-clear-btn-bg: #ef4444;
+      --theme-clear-btn-hover-bg: #b91c1c;
+      --theme-switcher-bg: #a7f3d0;
+      --font-main: 'Inter', sans-serif;
+      --font-headings: 'Poppins', sans-serif;
+      --theme-total-col-bg: #f0fdf4;
+      --theme-average-col-bg: #fef2f2;
+      --theme-general-average-col-bg: #e0f2fe;
+      --theme-mobile-summary-bg: linear-gradient(45deg, #f0fdf4, #fef2f2);
+      --theme-spark-color1: #10b981;
+      --theme-spark-color2: #ef4444;
+      
+      --theme-text-main: #1f2937;
+      --theme-subject-text: #047857;
+      --theme-total-text: #b91c1c;
+      --theme-average-text: #0f766e;
+      --theme-gen-avg-text: #0369a1;
+      --theme-input-text: #047857;
+      --theme-input-bg: #ffffff;
+      --theme-input-border: #a7f3d0;
+      --theme-divider-color: #d1fae5;
+    }
+
+    /* 🍥 TEMA NARUTO (SÍMBOLO UZUMAKI) */
+    body.theme-naruto {
+      --theme-bg: #fff3e0;
+      --theme-bg-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 20 a 30 30 0 0 1 0 60 a 20 20 0 0 1 0 -40 a 10 10 0 0 1 0 20' fill='none' stroke='%23ea580c' stroke-width='10' stroke-linecap='round' stroke-opacity='0.15'/%3E%3C/svg%3E");
+      --theme-header-text: #ea580c;
+      --theme-subheader-text: #0284c7;
+      --theme-primary-accent: #f97316;
+      --theme-secondary-accent: #0ea5e9;
+      --theme-card-bg: rgba(255, 255, 255, 0.95);
+      --theme-card-header-bg: #ffedd5;
+      --theme-card-border: #fdba74;
+      --theme-table-header-bg: #ffedd5;
+      --theme-table-header-text: #c2410c;
+      --theme-clear-btn-bg: #ea580c;
+      --theme-clear-btn-hover-bg: #c2410c;
+      --theme-switcher-bg: #fed7aa;
+      --theme-total-col-bg: #fff7ed;
+      --theme-average-col-bg: #e0f2fe;
+      --theme-general-average-col-bg: #ffedd5;
+      --theme-mobile-summary-bg: linear-gradient(45deg, #fff7ed, #e0f2fe);
+      --theme-spark-color1: #fb923c;
+      --theme-spark-color2: #38bdf8;
+      
+      --theme-text-main: #333333;
+      --theme-subject-text: #c2410c;
+      --theme-total-text: #b45309;
+      --theme-average-text: #0369a1;
+      --theme-gen-avg-text: #c2410c;
+      --theme-input-text: #9a3412;
+      --theme-input-bg: #ffffff;
+      --theme-input-border: #fdba74;
+      --theme-divider-color: #ffedd5;
+    }
+
+    /* 👁️ TEMA SASUKE (SÍMBOLO UCHIHA) */
+    body.theme-sasuke {
+      --theme-bg: #0f172a;
+      --theme-bg-image: url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill-opacity='0.15'%3E%3Cpath d='M50 15 C 80 15 90 40 90 40 L 50 60 L 10 40 C 10 40 20 15 50 15 Z' fill='%23ef4444'/%3E%3Cpath d='M10 40 L 50 60 L 90 40 C 90 40 80 65 50 65 C 20 65 10 40 10 40 Z' fill='%23ffffff'/%3E%3Crect x='45' y='65' width='10' height='20' fill='%2394a3b8'/%3E%3C/g%3E%3C/svg%3E");
+      --theme-header-text: #f8fafc;
+      --theme-subheader-text: #ef4444;
+      --theme-primary-accent: #6366f1;
+      --theme-secondary-accent: #dc2626;
+      
+      --theme-card-bg: rgba(255, 255, 255, 0.95);
+      --theme-card-header-bg: #eef2ff;
+      --theme-card-border: #c7d2fe;
+      --theme-table-header-bg: #eef2ff;
+      --theme-table-header-text: #312e81;
+      
+      --theme-clear-btn-bg: #ef4444;
+      --theme-clear-btn-hover-bg: #dc2626;
+      --theme-switcher-bg: #e0e7ff;
+      
+      --theme-total-col-bg: #f8fafc;
+      --theme-average-col-bg: #fef2f2;
+      --theme-general-average-col-bg: #e0e7ff;
+      --theme-mobile-summary-bg: linear-gradient(45deg, #e0e7ff, #fef2f2);
+      
+      --theme-spark-color1: #818cf8;
+      --theme-spark-color2: #f87171;
+      
+      --theme-text-main: #1e293b;
+      --theme-subject-text: #4f46e5;
+      --theme-total-text: #3730a3;
+      --theme-average-text: #b91c1c;
+      --theme-gen-avg-text: #4338ca;
+      --theme-input-text: #312e81;
+      --theme-input-bg: #ffffff;
+      --theme-input-border: #a5b4fc;
+      --theme-divider-color: #e2e8f0;
+    }
+
+    /* 🌸 TEMA SAKURA (SÍMBOLO HARUNO) */
+    body.theme-sakura {
+      --theme-bg: #fdf2f8;
+      --theme-bg-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg opacity='0.15'%3E%3Ccircle cx='50' cy='50' r='35' fill='%23db2777'/%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='%23ffffff' stroke-width='8'/%3E%3C/g%3E%3C/svg%3E");
+      --theme-header-text: #be185d;
+      --theme-subheader-text: #15803d;
+      --theme-primary-accent: #db2777;
+      --theme-secondary-accent: #16a34a;
+      --theme-card-bg: rgba(255, 255, 255, 0.95);
+      --theme-card-header-bg: #fce7f3;
+      --theme-card-border: #fbcfe8;
+      --theme-table-header-bg: #fce7f3;
+      --theme-table-header-text: #9d174d;
+      --theme-clear-btn-bg: #ec4899;
+      --theme-clear-btn-hover-bg: #db2777;
+      --theme-switcher-bg: #fbcfe8;
+      --theme-total-col-bg: #fdf2f8;
+      --theme-average-col-bg: #f0fdf4;
+      --theme-general-average-col-bg: #fce7f3;
+      --theme-mobile-summary-bg: linear-gradient(45deg, #fdf2f8, #f0fdf4);
+      --theme-spark-color1: #f9a8d4;
+      --theme-spark-color2: #86efac;
+
+      --theme-text-main: #1f2937;
+      --theme-subject-text: #be185d;
+      --theme-total-text: #db2777;
+      --theme-average-text: #15803d;
+      --theme-gen-avg-text: #9d174d;
+      --theme-input-text: #831843;
+      --theme-input-bg: #ffffff;
+      --theme-input-border: #fbcfe8;
+      --theme-divider-color: #fce7f3;
+    }
+
+    /* ⚡ TEMA KAKASHI (KUNAI ANBU) */
+    body.theme-kakashi {
+      --theme-bg: #f1f5f9;
+      --theme-bg-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg' transform='rotate(45)'%3E%3Cpolygon points='50,10 60,40 55,40 55,60 65,60 65,65 35,65 35,60 45,60 45,40 40,40' fill='%23334155' fill-opacity='0.15'/%3E%3Ccircle cx='50' cy='75' r='10' fill='none' stroke='%23334155' stroke-width='4' stroke-opacity='0.15'/%3E%3C/svg%3E");
+      --theme-header-text: #0f172a;
+      --theme-subheader-text: #16a34a;
+      --theme-primary-accent: #334155;
+      --theme-secondary-accent: #22c55e;
+      --theme-card-bg: rgba(255, 255, 255, 0.95);
+      --theme-card-header-bg: #e2e8f0;
+      --theme-card-border: #cbd5e1;
+      --theme-table-header-bg: #e2e8f0;
+      --theme-table-header-text: #1e293b;
+      --theme-clear-btn-bg: #475569;
+      --theme-clear-btn-hover-bg: #334155;
+      --theme-switcher-bg: #cbd5e1;
+      --theme-total-col-bg: #f8fafc;
+      --theme-average-col-bg: #f0fdf4;
+      --theme-general-average-col-bg: #e2e8f0;
+      --theme-mobile-summary-bg: linear-gradient(45deg, #f8fafc, #f0fdf4);
+      --theme-spark-color1: #94a3b8;
+      --theme-spark-color2: #4ade80;
+
+      --theme-text-main: #334155;
+      --theme-subject-text: #0f172a;
+      --theme-total-text: #334155;
+      --theme-average-text: #166534;
+      --theme-gen-avg-text: #0f172a;
+      --theme-input-text: #0f172a;
+      --theme-input-bg: #ffffff;
+      --theme-input-border: #cbd5e1;
+      --theme-divider-color: #e2e8f0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--theme-bg);
+      background-image: var(--theme-bg-image);
+      color: var(--theme-text-main);
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-headings);
+      font-weight: 700;
+    }
+
+    .main-header h1 {
+      color: var(--theme-header-text);
+      font-weight: 700;
+      transition: color 0.5s ease;
+    }
+
+    .main-header p {
+      color: var(--theme-subheader-text);
+      font-weight: 600;
+      transition: color 0.5s ease;
+    }
+    
+    .tri-tab-btn {
+      background-color: var(--theme-card-bg);
+      color: var(--theme-primary-accent);
+      border: 2px solid var(--theme-card-border);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      outline: none;
+    }
+    .tri-tab-btn:hover {
+      background-color: var(--theme-switcher-bg);
+    }
+    .tri-tab-btn.active {
+      background-color: var(--theme-primary-accent);
+      color: white;
+      border-color: var(--theme-primary-accent);
+      box-shadow: 0 4px 10px -1px var(--theme-secondary-accent);
+    }
+
+    .mobile-card, .desktop-card {
+      background-color: var(--theme-card-bg);
+      border: 1px solid var(--theme-card-border);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      transition: background-color 0.5s ease, border-color 0.5s ease;
+    }
+
+    .mobile-card-header h2, .desktop-card h3, #mobile-summary-content th, .mobile-section-title {
+      color: var(--theme-table-header-text);
+    }
+
+    .mobile-card-header, .table-header-bg {
+      background-color: var(--theme-card-header-bg) !important;
+    }
+
+    .header-main th {
+      color: var(--theme-table-header-text);
+      border-bottom: 2px solid var(--theme-card-border);
+    }
+
+    .header-main th.subject-cell {
+      border-bottom: 2px solid var(--theme-secondary-accent);
+    }
+
+    .header-sub th {
+      color: var(--theme-primary-accent);
+    }
+
+    .clear-btn {
+      background-color: var(--theme-clear-btn-bg);
+      transition: all 0.3s ease;
+    }
+
+    .clear-btn:hover {
+      background-color: var(--theme-clear-btn-hover-bg);
+    }
+
+    #view-switcher {
+      background-color: var(--theme-switcher-bg);
+    }
+
+    #view-switcher .switcher-btn {
+      color: var(--theme-primary-accent);
+    }
+
+    #view-switcher .switcher-btn.active {
+      background-color: var(--theme-card-bg);
+      color: var(--theme-primary-accent);
+    }
+
+    #history-toggle {
+      color: var(--theme-header-text);
+    }
+
+    #theme-toggler-container {
+      position: relative;
+    }
+
+    #theme-toggler-btn {
+      color: var(--theme-primary-accent, #9333ea);
+      background-color: var(--theme-switcher-bg, #e9d5ff);
+    }
+
+    #theme-toggler-btn:hover {
+      opacity: 0.8;
+    }
+
+    #theme-switcher {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      right: 0;
+      z-index: 50;
+      display: flex;
+      gap: 0.25rem;
+      background-color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      padding: 0.5rem;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      transform-origin: top right;
+      transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+      transform: scale(0.95) translateY(-10px);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #theme-switcher.is-open {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .theme-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      padding-bottom: 2px;
+    }
+
+    .theme-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .theme-btn.active {
+      border-color: var(--theme-header-text);
+      box-shadow: 0 0 10px var(--theme-subheader-text);
+    }
+
+    #naruto-btn { background-color: #ea580c; color: #fff; }
+    #sasuke-btn { background-color: #0f172a; color: #ef4444; border-color: #ef4444;}
+    #sakura-btn { background-color: #db2777; color: #fff; }
+    #kakashi-btn { background-color: #475569; color: #4ade80; }
+    #default-btn { background-color: #10b981; color: #fff; }
+
+    .grade-input {
+      width: 100%;
+      min-width: 60px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid var(--theme-input-border);
+      background-color: var(--theme-input-bg);
+      text-align: center;
+      font-weight: 500;
+      color: var(--theme-input-text);
+      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.5s;
+    }
+
+    .grade-input:focus {
+      outline: none;
+      border-color: var(--theme-primary-accent);
+      box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.3);
+    }
+
+    .table-responsive {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    th, td {
+      white-space: nowrap;
+      padding: 10px 14px;
+      text-align: center;
+      vertical-align: middle;
+      color: var(--theme-text-main);
+    }
+
+    .subject-cell {
+      text-align: left;
+      font-weight: 600;
+      color: var(--theme-subject-text);
+      white-space: normal;
+      min-width: 120px;
+      position: sticky;
+      left: 0;
+      background-color: var(--theme-card-bg);
+      transition: background-color 0.5s ease;
+    }
+    
+    .subject-cell-content {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .group-divider {
+      border-left: 2px solid var(--theme-divider-color);
+    }
+
+    .total-col {
+      background-color: var(--theme-total-col-bg);
+      font-weight: 700;
+      color: var(--theme-total-text);
+    }
+
+    .average-col {
+      background-color: var(--theme-average-col-bg);
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: var(--theme-average-text);
+    }
+
+    .general-average-col {
+      background-color: var(--theme-general-average-col-bg);
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: var(--theme-gen-avg-text);
+    }
+
+    .mobile-card {
+      border-radius: 1rem;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .mobile-card-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--theme-card-border);
+      cursor: pointer;
+    }
+
+    .mobile-card-body {
+      padding: 1.25rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .mobile-grade-section {
+      border: 1px solid var(--theme-divider-color);
+      border-radius: 0.75rem;
+      padding: 1rem;
+    }
+
+    .mobile-grades-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 1rem;
+    }
+
+    .mobile-section-total {
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--theme-divider-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: var(--theme-total-text);
+    }
+
+    .mobile-summary {
+      background: var(--theme-mobile-summary-bg);
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--theme-card-border);
+    }
+
+    .status-aprovada { color: #059669; background-color: #d1fae5; }
+    .status-recuperacao { color: #d97706; background-color: #fef3c7; }
+    .status-atencao { color: #ca8a04; background-color: #fef9c3; }
+    .status-reprovada { color: #e11d48; background-color: #fee2e2; }
+
+    .status-cell {
+      padding: 4px 12px;
+      border-radius: 9999px;
+      display: inline-block;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .component-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--theme-text-main);
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4px;
+      line-height: 1.2;
+      white-space: normal;
+      text-align: center;
+    }
+
+    .grade-input-ok { color: #047857 !important; border-color: #6ee7b7 !important; }
+    .grade-input-low { color: #be123c !important; border-color: #fda4af !important; }
+    
+    .total-col-ok { background-color: #d1fae5 !important; color: #065f46 !important; }
+    .total-col-low { background-color: #fee2e2 !important; color: #991b1b !important; }
+    .mobile-total-ok { color: #065f46 !important; }
+    .mobile-total-low { color: #991b1b !important; }
+
+    .collapsible-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-in-out;
+    }
+
+    .grade-ok { color: #059669 !important; }
+    .grade-low { color: #dc2626 !important; }
+
+    .history-table th, .history-table td {
+      white-space: normal;
+      padding: 8px 2px;
+      font-size: 0.78rem;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 1.2;
+    }
+
+    .history-table th:first-child, .history-table td:first-child {
+      text-align: left;
+      font-weight: 600;
+      min-width: 80px;
+      padding-left: 8px;
+    }
+
+    #history-table-container .status-cell {
+      padding: 2px 6px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+
+    #mobile-summary-content th {
+      white-space: normal;
+      line-height: 1.2;
+    }
+    
+    .dates-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 50%;
+        transition: background-color 0.2s;
+    }
+    
+    .dates-btn:hover {
+        background-color: rgba(128,128,128,0.2);
+    }
+    
+    .dates-btn svg {
+        width: 18px;
+        height: 18px;
+        color: var(--theme-primary-accent);
+    }
+
+    .chakra-trail {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      opacity: 0;
+      background: radial-gradient(circle, var(--theme-spark-color1) 10%, transparent 70%);
+      box-shadow: 0 0 10px 2px var(--theme-spark-color2);
+      animation: chakraFadeOut 0.6s ease-out forwards;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes chakraFadeOut {
+      0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+    }
+
+    .shuriken-spark {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 5 L60 40 L95 50 L60 60 L50 95 L40 60 L5 50 L40 40 Z' fill='%23333333'/%3E%3Ccircle cx='50' cy='50' r='12' fill='%23ffffff'/%3E%3Ccircle cx='50' cy='50' r='6' fill='%23333333'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      z-index: 10000;
+      animation: shuriken-fly 800ms cubic-bezier(0.1, 0.7, 1.0, 0.1) forwards;
+      transform-origin: center;
+    }
+
+    @keyframes shuriken-fly {
+      0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 1; }
+      100% { transform: translate(calc(var(--x) - 50%), calc(var(--y) - 50%)) scale(1.2) rotate(720deg); opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <div class="relative flex justify-end mb-2">
+      <div id="theme-toggler-container">
+        <button id="theme-toggler-btn" class="p-2 rounded-full transition-colors focus:outline-none" title="Mudar Estilo Shinobi">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+          </svg>
+        </button>
+        <div id="theme-switcher">
+          <button id="naruto-btn" data-theme="naruto" class="theme-btn" title="Uzumaki">N</button>
+          <button id="sasuke-btn" data-theme="sasuke" class="theme-btn" title="Uchiha">S</button>
+          <button id="sakura-btn" data-theme="sakura" class="theme-btn" title="Haruno">Sa</button>
+          <button id="kakashi-btn" data-theme="kakashi" class="theme-btn" title="ANBU Hatake">K</button>
+          <button id="default-btn" data-theme="default" class="theme-btn active" title="Vila da Folha (Konoha)">🍃</button>
+        </div>
+      </div>
+    </div>
+
+
+    <header class="text-center mb-4 main-header">
+      <svg class="h-12 w-12 text-current mx-auto mb-2 drop-shadow-md transition-colors duration-500" viewBox="0 0 100 100" fill="currentColor">
+         <path d="M50 5 L60 40 L95 50 L60 60 L50 95 L40 60 L5 50 L40 40 Z" />
+         <circle cx="50" cy="50" r="12" fill="var(--theme-bg)" class="transition-colors duration-500"/>
+         <circle cx="50" cy="50" r="5" />
+      </svg>
+      <h1 class="text-4xl font-bold">Júlia Rocha - Boletim Shinobi</h1>
+      <p id="subtitle-container" class="text-md mt-2 font-semibold flex items-center justify-center gap-2">
+        <!-- Inserido via JS -->
+      </p>
+    </header>
+
+    <div id="trimester-tabs" class="flex justify-center items-center gap-2 sm:gap-4 mb-4 flex-wrap">
+      <button data-trimester="tri1" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn active">Arco 1</button>
+      <button data-trimester="tri2" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn">Arco 2</button>
+      <button data-trimester="tri3" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn">Arco 3</button>
+    </div>
+
+    <div class="text-center mb-4">
+      <button id="history-toggle" class="font-semibold text-sm hover:opacity-80 transition-opacity flex items-center gap-1 mx-auto">
+        <span id="history-toggle-text">Quebrar Selo: Arquivos da Hokage</span>
+        <svg id="history-arrow" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+    </div>
+
+    <div id="history-content" class="collapsible-content mb-6">
+      <div class="desktop-card rounded-2xl shadow-lg overflow-hidden">
+        <div class="p-4 table-header-bg">
+          <h3 class="text-lg font-bold">Registro de Missões Shinobi (Histórico Anual)</h3>
+        </div>
+        <div id="history-table-container" class="p-2 overflow-x-auto"></div>
+      </div>
+    </div>
+
+    <div id="view-switcher" class="flex justify-center items-center mb-6 p-1 rounded-full w-max mx-auto">
+      <button data-view="desktop" class="switcher-btn px-4 py-2 text-sm font-semibold rounded-full transition-colors flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm2 0v8h10V5H5z" clip-rule="evenodd" />
+          <path d="M1 15a1 1 0 000 2h18a1 1 0 100-2H1z" />
+        </svg>
+        Desktop
+      </button>
+      <button data-view="mobile" class="switcher-btn px-4 py-2 text-sm font-semibold rounded-full transition-colors flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm4 13a1 1 0 110-2 1 1 0 010 2z" />
+        </svg>
+        Smartphone
+      </button>
+    </div>
+
+    <div id="bulletin-container">
+    </div>
+
+    <div class="flex flex-col items-center justify-center mt-8 text-center">
+      <button id="clear-button" class="clear-btn text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+        <!-- Inserido via JS -->
+      </button>
+    </div>
+  </div>
+
+  <div id="confirmation-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 m-4 text-center" style="background-color: var(--theme-card-bg); color: var(--theme-text-main);">
+      <h3 class="text-xl font-bold mb-4" style="color: var(--theme-table-header-text);">Confirmar Jutsu</h3>
+      <p class="mb-6 opacity-80">Tem certeza de que deseja apagar os registros de missões deste arco? Isso não pode ser desfeito!</p>
+      <div class="flex justify-center gap-4">
+        <button id="modal-cancel-btn" class="px-6 py-2 rounded-full font-semibold text-gray-700 bg-gray-200 hover:bg-gray-300 transition-colors">Cancelar Missão</button>
+        <button id="modal-confirm-btn" class="px-6 py-2 rounded-full font-semibold text-white transition-colors shadow-md" style="background-color: var(--theme-secondary-accent);">Sim, apagar!</button>
+      </div>
+    </div>
+  </div>
+  
+    <div id="dates-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="desktop-card rounded-2xl shadow-xl w-full max-w-md m-4 text-center transform transition-all scale-95 opacity-0">
+            <div class="p-6 relative">
+                <button id="dates-modal-close-btn" class="absolute top-2 right-2 p-2 rounded-full transition-colors" style="color: var(--theme-text-main);">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <h3 id="dates-modal-title" class="text-xl font-bold mb-4" style="color: var(--theme-table-header-text);">Missões Agendadas</h3>
+                <ul id="dates-modal-list" class="text-left space-y-3" style="color: var(--theme-text-main);">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <script>
+    const X_MASTER_KEY = '$2a$10$sAxeGPmjCTWr8Vps5Vm73enUYMdIkSEEhm8Xrvg1GShLb9o1.VR7a';
+    const BIN_ID = '69b088d7864efc355b5e5d4b'; 
+    const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+    const JSONBIN_URL_LATEST = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
+    
+    let debounceTimer;
+    let isUpdatingFromRemote = false;
+
+    let currentTrimester = 'tri1';
+    let appData = { tri1: {}, tri2: {}, tri3: {} };
+    const trimesterNames = { tri1: 'Arco 1 (Genin)', tri2: 'Arco 2 (Chūnin)', tri3: 'Arco 3 (Jōnin)' };
+    const trimesterShortNames = { tri1: 'Arco 1', tri2: 'Arco 2', tri3: 'Arco 3' };
+
+    const VIEW_PREF_KEY = 'boletimViewPreference';
+    const THEME_KEY = 'boletimTheme';
+    
+    // DATAS ATUALIZADAS CONFORME A IMAGEM ENVIADA
+    const importantDates = {
+      'Redação': [
+        { date: '12 de Março', event: 'Teste de Produção Textual (7,0)' },
+        { date: '16 de Abril', event: 'Reescrita do Teste (3,0)' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+      ],
+      'Português': [
+        { date: '20 de Março', event: 'Teste 1' },
+        { date: '24 de Abril', event: 'Teste 2' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+      ],
+      'Matemática': [
+        { date: '17 de Março', event: 'Teste 1' },
+        { date: '14 de Abril', event: 'Teste 2' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+      ],
+      'Inglês': [
+        { date: '17 de Março', event: 'Teste 1' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+      ],
+      'Geografia': [
+        { date: '16 de Março', event: 'Teste 1' },
+        { date: '20 de Abril', event: 'Teste 2' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+      ],
+      'Filosofia': [
+        { date: '25 de Março', event: 'Teste 1' },
+        { date: '22 de Abril', event: 'Teste 2' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+      ],
+      'História': [
+        { date: '13 de Março', event: 'Teste 1' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+      ],
+      'Ciências': [
+        { date: '11 de Março', event: 'Teste 1' },
+        { date: '15 de Abril', event: 'Teste 2' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+      ],
+      'Arte': [
+        { date: '11 de Março', event: 'Teste 1' },
+        { date: '08 de Abril', event: 'Teste 2' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+      ]
+    };
+
+    const subjects = [{
+      name: 'Redação',
+      n1: [{ name: 'Proj. Leitura', max: 7 }, { name: 'Atividades', max: 3 }],
+      n2: [{ name: 'Teste', max: 7 }, { name: 'Reescrita', max: 3 }],
+      n3: 10
+    }, {
+      name: 'Português',
+      n1: [{ name: 'Ativ. PH', max: 3 }, { name: 'Projeto', max: 4 }, { name: 'Atividades/Qual.', max: 3 }],
+      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+      n3: 10
+    }, {
+      name: 'Matemática',
+      n1: [{ name: 'Ativ. PH', max: 3 }, { name: 'Ativ. Sala', max: 5 }, { name: 'Projeto', max: 2 }],
+      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+      n3: 10
+    }, {
+      name: 'Inglês',
+      n1: [{ name: 'Projeto', max: 5 }, { name: 'Participação', max: 2 }, { name: 'Ativ Casa/Sala', max: 3 }],
+      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+      n3: 10
+    }, {
+      name: 'Geografia',
+      n1: [{ name: 'PH', max: 3 }, { name: 'Trabalho Grupo', max: 3 }, { name: 'Mód/Caderno', max: 3 }, { name: 'Qualitativo', max: 1 }],
+      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+      n3: 10
+    }, {
+      name: 'Arte',
+      n1: [{ name: 'Atividades', max: 10 }],
+      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+      n3: 10
+    }, {
+      name: 'Filosofia',
+      n1: [{ name: 'Ativ. Livro', max: 4 }, { name: 'Projeto', max: 4 }, { name: 'Participação', max: 2 }],
+      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+      n3: 10
+    }, {
+      name: 'Ciências',
+      n1: [{ name: 'Ativ. Módulos', max: 2 }, { name: 'Aula Prática', max: 2 }, { name: 'Ativ. Folhas', max: 3 }, { name: 'PH', max: 3 }],
+      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+      n3: 10
+    }, {
+      name: 'História',
+      n1: [{ name: 'Ativ. PH', max: 3 }, { name: 'Ativ. Sala', max: 4 }, { name: 'Projeto', max: 3 }],
+      n2: [{ name: 'Teste 1', max: 10 }],
+      n3: 10
+    }, {
+      name: 'Educação Física',
+      shortName: 'Ed. Física',
+      n1: [{ name: 'Atividades', max: 10 }],
+      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+      n3: 10
+    }, {
+      name: 'Ensino Religioso',
+      shortName: 'Ens. Religioso',
+      n1: [{ name: 'Atividades', max: 10 }],
+      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+      n3: 10
+    }, {
+      name: 'Projeto de Vida',
+      shortName: 'Proj. de Vida',
+      n1: [{ name: 'Atividades', max: 10 }],
+      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+      n3: 10
+    }];
+    
+    const MAX_N1_COMPONENTS = 4;
+    const MAX_N2_COMPONENTS = 2;
+
+    function evaluateExpression(expression) {
+        if (!expression || typeof expression !== 'string') return 0;
+        const sanitized = expression.replace(/,/g, '.').replace(/[^0-9.+]/g, '');
+        const parts = sanitized.split('+');
+        const sum = parts.reduce((acc, part) => {
+            const num = parseFloat(part);
+            return acc + (isNaN(num) ? 0 : num);
+        }, 0);
+        return sum;
+    }
+
+    function createGradeInput(subjectIndex, type, componentIndex, component) {
+        const container = document.createElement('div');
+        container.className = 'flex flex-col items-center';
+        const label = document.createElement('label');
+        label.textContent = `${component.name} (${component.max.toFixed(1)})`;
+        label.className = 'component-label';
+        const input = document.createElement('input');
+
+        input.type = 'text';
+        input.inputMode = 'decimal';
+        input.className = 'grade-input';
+        input.placeholder = `-`;
+
+        input.dataset.subjectIndex = subjectIndex;
+        input.dataset.type = type;
+        input.dataset.componentIndex = componentIndex;
+        input.dataset.max = component.max;
+        input.dataset.rawValue = "";
+
+        input.addEventListener('focus', (e) => {
+            const input = e.target;
+            if (input.dataset.rawValue) {
+                input.value = input.dataset.rawValue;
+            }
+            input.select();
+        });
+
+        input.addEventListener('blur', (e) => {
+            const input = e.target;
+            const expression = input.value;
+            input.dataset.rawValue = expression;
+
+            let sum = evaluateExpression(expression);
+            const max = parseFloat(input.dataset.max);
+
+            if (sum > max) sum = max;
+            input.value = sum > 0 ? sum.toFixed(1) : '';
+
+            input.classList.remove('grade-input-low', 'grade-input-ok');
+            if (input.value !== '') {
+                if (sum >= max * 0.6) input.classList.add('grade-input-ok');
+                else input.classList.add('grade-input-low');
+            }
+
+            if (!appData[currentTrimester]) appData[currentTrimester] = {};
+            if (!appData[currentTrimester][subjectIndex]) appData[currentTrimester][subjectIndex] = {};
+            if (!appData[currentTrimester][subjectIndex][type]) appData[currentTrimester][subjectIndex][type] = [];
+            appData[currentTrimester][subjectIndex][type][componentIndex] = expression;
+
+            updateRowUI(subjectIndex, true);
+        });
+
+        container.appendChild(label);
+        container.appendChild(input);
+        return container;
+    }
+
+    function getTrimesterStats(subjectIndex, triKey) {
+      const data = appData[triKey] && appData[triKey][subjectIndex] ? appData[triKey][subjectIndex] : {};
+      let totalN1 = 0, totalN2 = 0, totalN3 = 0;
+      let hasAny = false;
+      let allFilled = true;
+
+      subjects[subjectIndex].n1.forEach((comp, i) => {
+          const val = data.n1 && data.n1[i] !== undefined && data.n1[i] !== '' ? data.n1[i] : null;
+          if (val !== null) {
+              hasAny = true;
+              totalN1 += Math.min(evaluateExpression(val), comp.max);
+          } else allFilled = false;
+      });
+
+      subjects[subjectIndex].n2.forEach((comp, i) => {
+          const val = data.n2 && data.n2[i] !== undefined && data.n2[i] !== '' ? data.n2[i] : null;
+          if (val !== null) {
+              hasAny = true;
+              totalN2 += Math.min(evaluateExpression(val), comp.max);
+          } else allFilled = false;
+      });
+
+      const valN3 = data.n3 && data.n3[0] !== undefined && data.n3[0] !== '' ? data.n3[0] : null;
+      if (valN3 !== null) {
+          hasAny = true;
+          totalN3 += Math.min(evaluateExpression(valN3), subjects[subjectIndex].n3);
+      } else allFilled = false;
+
+      return {
+          totalN1, totalN2, totalN3,
+          avg: (totalN1 + totalN2 + totalN3) / 3,
+          hasAny, allFilled,
+          n1HasInput: data.n1 && data.n1.some(v => v !== undefined && v !== ''),
+          n2HasInput: data.n2 && data.n2.some(v => v !== undefined && v !== ''),
+          n3HasInput: data.n3 && data.n3.some(v => v !== undefined && v !== '')
+      };
+    }
+
+    function updateRowUI(subjectIndex, shouldSave = true) {
+      const tri1 = getTrimesterStats(subjectIndex, 'tri1');
+      const tri2 = getTrimesterStats(subjectIndex, 'tri2');
+      const tri3 = getTrimesterStats(subjectIndex, 'tri3');
+
+      const current = currentTrimester === 'tri1' ? tri1 : currentTrimester === 'tri2' ? tri2 : tri3;
+
+      const n3Summary = document.getElementById(`n3-${subjectIndex}-summary`);
+      if (n3Summary) {
+        n3Summary.textContent = current.totalN3.toFixed(1);
+        n3Summary.className = 'p-3 text-center font-bold ' + (current.n3HasInput ? (current.totalN3 >= 6.0 ? 'grade-ok' : 'grade-low') : '');
+      }
+
+      document.querySelectorAll(`[id="total-n1-${subjectIndex}"], [id="total-n1-${subjectIndex}-summary"]`).forEach(el => {
+        el.textContent = current.totalN1.toFixed(1);
+        el.classList.remove('total-col-ok', 'total-col-low', 'mobile-total-ok', 'mobile-total-low', 'grade-ok', 'grade-low');
+        if (current.n1HasInput) {
+          if (el.id.endsWith('-summary')) el.classList.add(current.totalN1 >= 6.0 ? 'grade-ok' : 'grade-low');
+          else el.classList.add(current.totalN1 >= 6.0 ? (el.closest('.mobile-card') ? 'mobile-total-ok' : 'total-col-ok') : (el.closest('.mobile-card') ? 'mobile-total-low' : 'total-col-low'));
+        }
+      });
+      
+      document.querySelectorAll(`[id="total-n2-${subjectIndex}"], [id="total-n2-${subjectIndex}-summary"]`).forEach(el => {
+        el.textContent = current.totalN2.toFixed(1);
+        el.classList.remove('total-col-ok', 'total-col-low', 'mobile-total-ok', 'mobile-total-low', 'grade-ok', 'grade-low');
+        if (current.n2HasInput) {
+          if (el.id.endsWith('-summary')) el.classList.add(current.totalN2 >= 6.0 ? 'grade-ok' : 'grade-low');
+          else el.classList.add(current.totalN2 >= 6.0 ? (el.closest('.mobile-card') ? 'mobile-total-ok' : 'total-col-ok') : (el.closest('.mobile-card') ? 'mobile-total-low' : 'total-col-low'));
+        }
+      });
+      
+      document.querySelectorAll(`[id="average-${subjectIndex}"]`).forEach(el => {
+        el.textContent = current.avg.toFixed(1);
+        el.classList.remove('grade-ok', 'grade-low');
+        if (current.hasAny) el.classList.add(parseFloat(current.avg.toFixed(2)) >= 6.0 ? 'grade-ok' : 'grade-low');
+      });
+
+      let activeTrimesters = 0;
+      if (tri1.hasAny) activeTrimesters++;
+      if (tri2.hasAny) activeTrimesters++;
+      if (tri3.hasAny) activeTrimesters++;
+      
+      const dynamicDivisor = activeTrimesters || 1;
+      const dynamicGeneralAvg = (tri1.avg + tri2.avg + tri3.avg) / dynamicDivisor;
+
+      document.querySelectorAll(`[id="general-average-${subjectIndex}"], [id="general-average-${subjectIndex}-summary"], [id="general-average-${subjectIndex}-history"]`).forEach(el => {
+        el.textContent = dynamicGeneralAvg.toFixed(1);
+        el.classList.remove('grade-ok', 'grade-low');
+        if (activeTrimesters > 0) el.classList.add(parseFloat(dynamicGeneralAvg.toFixed(2)) >= 6.0 ? 'grade-ok' : 'grade-low');
+      });
+      
+      const tri1Cell = document.getElementById(`average-${subjectIndex}-history-tri1`);
+      if (tri1Cell) {
+          tri1Cell.textContent = tri1.hasAny ? tri1.avg.toFixed(1) : '-';
+          tri1Cell.className = tri1.hasAny ? (tri1.avg >= 6 ? 'text-center font-bold grade-ok' : 'text-center font-bold grade-low') : 'text-center font-bold opacity-50';
+      }
+      const tri2Cell = document.getElementById(`average-${subjectIndex}-history-tri2`);
+      if (tri2Cell) {
+          tri2Cell.textContent = tri2.hasAny ? tri2.avg.toFixed(1) : '-';
+          tri2Cell.className = tri2.hasAny ? (tri2.avg >= 6 ? 'text-center font-bold grade-ok' : 'text-center font-bold grade-low') : 'text-center font-bold opacity-50';
+      }
+      const tri3Cell = document.getElementById(`average-${subjectIndex}-history-tri3`);
+      if (tri3Cell) {
+          tri3Cell.textContent = tri3.hasAny ? tri3.avg.toFixed(1) : '-';
+          tri3Cell.className = tri3.hasAny ? (tri3.avg >= 6 ? 'text-center font-bold grade-ok' : 'text-center font-bold grade-low') : 'text-center font-bold opacity-50';
+      }
+
+      let statusText = '-', statusClass = '';
+      if (activeTrimesters > 0) {
+        if (dynamicGeneralAvg >= 6.0) { statusText = 'Chūnin Aprovado'; statusClass = 'status-aprovada'; }
+        else if (current.allFilled) {
+            if (dynamicGeneralAvg >= 4.0) { statusText = 'Missão de Recuperação'; statusClass = 'status-recuperacao'; }
+            else { statusText = 'Reprovado na Academia'; statusClass = 'status-reprovada'; }
+        } else { statusText = 'Cuidado, Genin!'; statusClass = 'status-atencao'; }
+      }
+      
+      document.querySelectorAll(`[id="status-${subjectIndex}"], [id="status-${subjectIndex}-summary"], [id="status-${subjectIndex}-history"]`).forEach(el => {
+        el.querySelector('span').textContent = statusText;
+        el.querySelector('span').className = `status-cell ${statusClass}`;
+      });
+      
+      if (shouldSave) saveGradesToJSONBin();
+    }
+
+    function populateInputsFromMemory() {
+      document.querySelectorAll('.grade-input').forEach(input => {
+          const { subjectIndex, type, componentIndex } = input.dataset;
+          const data = appData[currentTrimester] && appData[currentTrimester][subjectIndex] && appData[currentTrimester][subjectIndex][type] 
+                      ? appData[currentTrimester][subjectIndex][type][componentIndex] : '';
+          
+          input.dataset.rawValue = data || '';
+          if (data) {
+              let sum = evaluateExpression(data);
+              const max = parseFloat(input.dataset.max);
+              if (sum > max) sum = max;
+              input.value = sum > 0 ? sum.toFixed(1) : '';
+          } else {
+              input.value = '';
+          }
+          
+          let value = parseFloat(input.value) || 0;
+          const max = parseFloat(input.dataset.max);
+          input.classList.remove('grade-input-low', 'grade-input-ok');
+          if (input.value !== '') {
+              if (value >= max * 0.6) input.classList.add('grade-input-ok');
+              else input.classList.add('grade-input-low');
+          }
+      });
+
+      subjects.forEach((_, i) => updateRowUI(i, false));
+    }
+
+    function render() {
+      renderHistory();
+      const container = document.getElementById('bulletin-container');
+      container.innerHTML = '<h4>&nbsp;</h4>'; 
+      const currentView = localStorage.getItem(VIEW_PREF_KEY) || (window.innerWidth < 768 ? 'mobile' : 'desktop');
+      if (currentView === 'desktop') {
+        container.innerHTML += `
+                                <div class="desktop-card rounded-2xl shadow-lg overflow-hidden">
+                                    <div class="table-responsive">
+                                        <table class="w-full text-sm">
+                                            <thead id="grades-table-head" class="table-header-bg sticky top-0"></thead>
+                                            <tbody id="grades-table-body"></tbody>
+                                        </table>
+                                    </div>
+                                </div>`;
+        renderTableView();
+      } else {
+        renderMobileView();
+      }
+      updateSwitcherUI(currentView);
+    }
+
+    function renderTableView() {
+        const tableHead = document.getElementById('grades-table-head');
+        const tableBody = document.getElementById('grades-table-body');
+        const nameTri = trimesterNames[currentTrimester];
+        const shortTri = trimesterShortNames[currentTrimester];
+
+        tableHead.innerHTML = `
+                <tr class="header-main">
+                    <th rowspan="2" class="subject-cell rounded-tl-2xl" style="background-color: var(--theme-card-header-bg)">Arte Ninja (Disciplina)</th>
+                    <th colspan="${MAX_N1_COMPONENTS + 1}" class="group-divider">${nameTri}: Missões N1</th>
+                    <th colspan="${MAX_N2_COMPONENTS + 1}" class="group-divider">${nameTri}: Missões N2</th>
+                    <th rowspan="2" class="group-divider">Prova (N3)</th>
+                    <th rowspan="2" class="group-divider average-col">Média ${shortTri}</th>
+                    <th rowspan="2" class="group-divider general-average-col">Média Geral</th>
+                    <th rowspan="2" class="group-divider rounded-tr-2xl">Status Atual</th>
+                </tr>
+                <tr class="header-sub">
+                    ${Array(MAX_N1_COMPONENTS).fill('<th>&nbsp;</th>').join('')}<th>Total N1</th>
+                    ${Array(MAX_N2_COMPONENTS).fill('<th>&nbsp;</th>').join('')}<th>Total N2</th>
+                </tr>`;
+                
+        subjects.forEach((subject, i) => {
+            const row = tableBody.insertRow();
+            row.style.borderBottom = '1px solid var(--theme-divider-color)';
+            const subjectCell = row.insertCell();
+            subjectCell.className = 'subject-cell';
+
+            const calendarIcon = (currentTrimester === 'tri1' && importantDates[subject.name]) ?
+                `<button class="dates-btn" data-subject-name="${subject.name}" title="Missões Agendadas">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+                    </svg>
+                </button>` : '';
+
+            subjectCell.innerHTML = `<div class="subject-cell-content"><span>${subject.name}</span>${calendarIcon}</div>`;
+
+            for (let j = 0; j < MAX_N1_COMPONENTS; j++) row.insertCell().appendChild(subject.n1[j] ? createGradeInput(i, 'n1', j, subject.n1[j]) : document.createTextNode(''));
+            row.insertCell().outerHTML = `<td id="total-n1-${i}" class="total-col group-divider">0.0</td>`;
+            for (let j = 0; j < MAX_N2_COMPONENTS; j++) row.insertCell().appendChild(subject.n2[j] ? createGradeInput(i, 'n2', j, subject.n2[j]) : document.createTextNode(''));
+            row.insertCell().outerHTML = `<td id="total-n2-${i}" class="total-col group-divider">0.0</td>`;
+            row.insertCell().appendChild(createGradeInput(i, 'n3', 0, {
+                name: 'Prova',
+                max: subject.n3
+            }));
+            row.insertCell().outerHTML = `<td id="average-${i}" class="group-divider average-col">0.0</td>`;
+            row.insertCell().outerHTML = `<td id="general-average-${i}" class="group-divider general-average-col">0.0</td>`;
+            row.insertCell().outerHTML = `<td id="status-${i}" class="group-divider"><span>-</span></td>`;
+        });
+    }
+
+    function renderMobileView() {
+      const container = document.getElementById('bulletin-container');
+      const nameTri = trimesterNames[currentTrimester];
+      const shortTri = trimesterShortNames[currentTrimester];
+
+      const summaryContainer = document.createElement('div');
+      summaryContainer.className = 'mobile-card';
+      summaryContainer.innerHTML = `
+                <div id="mobile-summary-toggle" class="mobile-card-header flex justify-between items-center">
+                    <h2 class="text-xl font-bold">Resumo Geral - ${nameTri}</h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </div>
+                <div id="mobile-summary-content" class="collapsible-content">
+                    <div class="p-2">
+                        <table class="w-full text-left text-sm">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--theme-divider-color);">
+                                    <th class="p-3 font-semibold">Disciplina</th>
+                                    <th class="p-3 font-semibold text-center">N1</th>
+                                    <th class="p-3 font-semibold text-center">N2</th>
+                                    <th class="p-3 font-semibold text-center">N3</th>
+                                    <th class="p-3 font-semibold text-center">Média Geral</th>
+                                    <th class="p-3 font-semibold text-center">Status Atual</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>`;
+      const summaryTbody = summaryContainer.querySelector('tbody');
+      if (summaryTbody) {
+        subjects.forEach((subject, i) => {
+          summaryTbody.innerHTML += `
+                            <tr style="border-bottom: 1px solid var(--theme-divider-color);">
+                                <td class="p-3 font-semibold opacity-80">${subject.name}</td>
+                                <td id="total-n1-${i}-summary" class="p-3 text-center font-bold">0.0</td>
+                                <td id="total-n2-${i}-summary" class="p-3 text-center font-bold">0.0</td>
+                                <td id="n3-${i}-summary" class="p-3 text-center font-bold">0.0</td>
+                                <td id="general-average-${i}-summary" class="p-3 text-center font-bold">0.0</td>
+                                <td id="status-${i}-summary" class="p-3 text-center"><span>-</span></td>
+                            </tr>`;
+        });
+      }
+      container.appendChild(summaryContainer);
+
+      subjects.forEach((subject, i) => {
+        const card = document.createElement('div');
+        card.className = 'mobile-card';
+        const calendarIcon = (currentTrimester === 'tri1' && importantDates[subject.name]) ?
+                `<button class="dates-btn" data-subject-name="${subject.name}" title="Missões Agendadas">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+                    </svg>
+                </button>` : '';
+        card.innerHTML = `
+                      <div class="mobile-card-header flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-xl font-bold">${subject.name}</h2>
+                            ${calendarIcon}
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                      </div>
+                      <div class="collapsible-content">
+                          <div class="mobile-card-body">
+                              <div class="mobile-grade-section">
+                                  <h3 class="mobile-section-title">Missões do ${nameTri}</h3>
+                                  <div class="mobile-grades-grid">${subject.n1.map((_, j) => `<div data-input-container="n1-${j}"></div>`).join('')}</div>
+                                  <div class="mobile-section-total"><span>Total N1:</span><span id="total-n1-${i}" class="text-lg">0.0</span></div>
+                              </div>
+                              <div class="mobile-grade-section">
+                                  <div class="mobile-grades-grid">${subject.n2.map((_, j) => `<div data-input-container="n2-${j}"></div>`).join('')}</div>
+                                  <div class="mobile-section-total"><span>Total N2:</span><span id="total-n2-${i}" class="text-lg">0.0</span></div>
+                              </div>
+                              <div class="mobile-grade-section">
+                                  <div class="mobile-grades-grid" style="grid-template-columns: 1fr;"><div data-input-container="n3-0"></div></div>
+                              </div>
+                          </div>
+                          <div class="mobile-summary">
+                              <div>
+                                  <span class="font-bold block">Média ${shortTri}</span>
+                                  <span id="average-${i}" class="text-2xl font-bold">0.0</span>
+                              </div>
+                              <div id="status-${i}"><span class="status-cell">-</span></div>
+                          </div>
+                      </div>`;
+        container.appendChild(card);
+        subject.n1.forEach((comp, j) => card.querySelector(`[data-input-container="n1-${j}"]`).appendChild(createGradeInput(i, 'n1', j, comp)));
+        subject.n2.forEach((comp, j) => card.querySelector(`[data-input-container="n2-${j}"]`).appendChild(createGradeInput(i, 'n2', j, comp)));
+        card.querySelector('[data-input-container="n3-0"]').appendChild(createGradeInput(i, 'n3', 0, {
+          name: 'Prova',
+          max: subject.n3
+        }));
+      });
+      
+      const summaryContent = document.getElementById('mobile-summary-content');
+      const summaryArrow = document.querySelector('#mobile-summary-toggle svg');
+      if (summaryContent && summaryArrow) {
+        setTimeout(() => {
+          summaryContent.style.maxHeight = summaryContent.scrollHeight + "px";
+          summaryArrow.style.transform = 'rotate(180deg)';
+        }, 10);
+      }
+    }
+
+    function renderHistory() {
+      const container = document.getElementById('history-table-container');
+      let historyTableHTML = `
+                <table class="w-full text-sm history-table">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--theme-divider-color);">
+                            <th class="text-left font-semibold">Arte Ninja (Disciplina)</th>
+                            <th class="font-semibold">Arco 1</th>
+                            <th class="font-semibold">Arco 2</th>
+                            <th class="font-semibold">Arco 3</th>
+                            <th class="font-semibold">Média Final</th>
+                            <th class="font-semibold">Status Final</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+      subjects.forEach((subject, i) => {
+        const displayName = subject.shortName || subject.name;
+        historyTableHTML += `
+                    <tr style="border-bottom: 1px solid var(--theme-divider-color);">
+                        <td class="text-left font-semibold opacity-80">${displayName}</td>
+                        <td id="average-${i}-history-tri1" class="text-center font-bold opacity-50">-</td>
+                        <td id="average-${i}-history-tri2" class="text-center font-bold opacity-50">-</td>
+                        <td id="average-${i}-history-tri3" class="text-center font-bold opacity-50">-</td>
+                        <td id="general-average-${i}-history" class="text-center font-bold">0.0</td>
+                        <td id="status-${i}-history" class="text-center"><span>-</span></td>
+                    </tr>`;
+      });
+      historyTableHTML += '</tbody></table>';
+      container.innerHTML = historyTableHTML;
+    }
+
+    function saveGradesToJSONBin() {
+        if (!BIN_ID || BIN_ID.includes('COLE_AQUI')) return;
+        
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(async () => {
+            if (isUpdatingFromRemote) return;
+            try {
+                await fetch(JSONBIN_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': X_MASTER_KEY
+                    },
+                    body: JSON.stringify({ grades: appData })
+                });
+            } catch (e) {
+                console.error("Erro ao guardar as notas online:", e);
+            }
+        }, 1000);
+    }
+
+    async function loadGradesFromJSONBin() {
+        if (!X_MASTER_KEY || X_MASTER_KEY.includes('COLE_AQUI') || !BIN_ID || BIN_ID.includes('COLE_AQUI')) {
+            console.warn("Chaves do JSONBin.io não configuradas. Usando dados locais.");
+            return;
+        }
+        try {
+            const response = await fetch(JSONBIN_URL_LATEST, {
+                headers: {
+                    'X-Master-Key': X_MASTER_KEY
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`Erro na rede: ${response.statusText}`);
+            }
+            const data = await response.json();
+            const savedData = data.record.grades || {};
+
+            isUpdatingFromRemote = true;
+            if (!savedData.tri1 && Object.keys(savedData).length > 0 && savedData[0]) {
+                appData = { tri1: savedData, tri2: {}, tri3: {} };
+            } else {
+                appData = { tri1: {}, tri2: {}, tri3: {}, ...savedData };
+            }
+            
+            populateInputsFromMemory();
+            isUpdatingFromRemote = false;
+
+        } catch (e) {
+            console.error("Erro ao carregar as notas online:", e);
+        }
+    }
+    
+    function updateSwitcherUI(activeView) {
+      document.querySelectorAll('#view-switcher button').forEach(button => {
+        button.classList.toggle('active', button.dataset.view === activeView);
+      });
+    }
+
+    function updateTabsUI() {
+      document.querySelectorAll('.tri-tab-btn').forEach(btn => {
+        if (btn.dataset.trimester === currentTrimester) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      applyTheme(localStorage.getItem(THEME_KEY) || 'default');
+    }
+
+    function applyTheme(theme) {
+      document.body.className = '';
+      if (theme && theme !== 'default') {
+        document.body.classList.add(`theme-${theme}`);
+      }
+      localStorage.setItem(THEME_KEY, theme);
+
+      document.querySelectorAll('#theme-switcher .theme-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.theme === theme);
+      });
+
+      const mainTitle = document.querySelector('.main-header h1');
+      const subTitleContainer = document.getElementById('subtitle-container');
+      const historyToggleText = document.getElementById('history-toggle-text');
+      const clearButton = document.getElementById('clear-button');
+      
+      const titleName = trimesterNames[currentTrimester];
+      const shortTitleName = trimesterShortNames[currentTrimester];
+
+      let nivelNinja = 'Genin';
+      if (currentTrimester === 'tri2') nivelNinja = 'Chūnin';
+      if (currentTrimester === 'tri3') nivelNinja = 'Jōnin';
+
+      mainTitle.textContent = 'Júlia Rocha - Boletim Shinobi';
+      
+      const contentEl = document.getElementById('history-content');
+      const isHistoryOpen = contentEl && contentEl.style.maxHeight && contentEl.style.maxHeight !== '0px';
+
+      if (theme === 'default') {
+        if (subTitleContainer) subTitleContainer.innerHTML = `🍃 <span>Academia Ninja (Konoha) - ${shortTitleName}</span> 🍃`;
+        historyToggleText.textContent = isHistoryOpen ? 'Restaurar Selo: Histórico Shinobi' : 'Quebrar Selo: Histórico Shinobi';
+        clearButton.textContent = `Jutsu: Apagar Registros do ${shortTitleName}`;
+      } else {
+        let emoji = '🍃';
+        if(theme === 'naruto') emoji = '🍥';
+        if(theme === 'sasuke') emoji = '🔥';
+        if(theme === 'sakura') emoji = '🌸';
+        if(theme === 'kakashi') emoji = '⚡';
+
+        if (subTitleContainer) subTitleContainer.innerHTML = `${emoji} <span>Missões de Nível ${nivelNinja} - ${shortTitleName}</span> ${emoji}`;
+        historyToggleText.textContent = isHistoryOpen ? 'Restaurar Selo: Histórico Shinobi' : 'Quebrar Selo: Histórico Shinobi';
+        clearButton.textContent = `Jutsu: Apagar Registros do ${shortTitleName}`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      render(); 
+      updateTabsUI();
+      loadGradesFromJSONBin();
+
+      document.getElementById('trimester-tabs').addEventListener('click', (e) => {
+        const btn = e.target.closest('.tri-tab-btn');
+        if (btn && btn.dataset.trimester !== currentTrimester) {
+          currentTrimester = btn.dataset.trimester;
+          updateTabsUI();
+          render(); 
+          populateInputsFromMemory(); 
+        }
+      });
+
+      const themeTogglerContainer = document.getElementById('theme-toggler-container');
+      const themeTogglerBtn = document.getElementById('theme-toggler-btn');
+      const themeSwitcher = document.getElementById('theme-switcher');
+
+      if (themeTogglerBtn && themeSwitcher) {
+        themeTogglerBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          themeSwitcher.classList.toggle('is-open');
+        });
+
+        themeSwitcher.addEventListener('click', (e) => {
+          const button = e.target.closest('.theme-btn');
+          if (button) {
+            applyTheme(button.dataset.theme);
+            setTimeout(() => themeSwitcher.classList.remove('is-open'), 100);
+          }
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!themeTogglerContainer.contains(e.target) && themeSwitcher.classList.contains('is-open')) {
+            themeSwitcher.classList.remove('is-open');
+          }
+        });
+      }
+
+      document.getElementById('view-switcher').addEventListener('click', (e) => {
+        if (e.target.closest('button')) {
+          const newView = e.target.closest('button').dataset.view;
+          localStorage.setItem(VIEW_PREF_KEY, newView);
+          render();
+          populateInputsFromMemory();
+        }
+      });
+
+      document.getElementById('history-toggle').addEventListener('click', () => {
+        const content = document.getElementById('history-content');
+        const arrow = document.getElementById('history-arrow');
+        const textEl = document.getElementById('history-toggle-text');
+
+        if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+          content.style.maxHeight = null;
+          arrow.style.transform = 'rotate(0deg)';
+          textEl.textContent = 'Quebrar Selo: Histórico Shinobi';
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+          arrow.style.transform = 'rotate(180deg)';
+          textEl.textContent = 'Restaurar Selo: Histórico Shinobi';
+        }
+      });
+
+      document.getElementById('bulletin-container').addEventListener('click', (e) => {
+        const toggle = e.target.closest('.mobile-card-header');
+        if (toggle) {
+          const content = toggle.nextElementSibling;
+          if (!content || !content.classList.contains('collapsible-content')) return;
+          const arrow = toggle.querySelector('svg');
+          const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+          if (isOpen) {
+            content.style.maxHeight = null;
+            if (arrow) arrow.style.transform = 'rotate(0deg)';
+          } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+            if (arrow) arrow.style.transform = 'rotate(180deg)';
+          }
+        }
+      });
+
+      const clearButton = document.getElementById('clear-button');
+      const confirmationModal = document.getElementById('confirmation-modal');
+      const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+      const modalCancelBtn = document.getElementById('modal-cancel-btn');
+
+      if (clearButton && confirmationModal && modalConfirmBtn && modalCancelBtn) {
+        clearButton.addEventListener('click', () => {
+          confirmationModal.classList.remove('hidden');
+        });
+        modalCancelBtn.addEventListener('click', () => {
+          confirmationModal.classList.add('hidden');
+        });
+        modalConfirmBtn.addEventListener('click', async () => {
+            appData[currentTrimester] = {};
+            render();
+            populateInputsFromMemory();
+            saveGradesToJSONBin();
+            confirmationModal.classList.add('hidden');
+        });
+      }
+      
+      const datesModal = document.getElementById('dates-modal');
+      const datesModalContent = datesModal.querySelector('.desktop-card');
+      const datesModalTitle = document.getElementById('dates-modal-title');
+      const datesModalList = document.getElementById('dates-modal-list');
+      const datesModalCloseBtn = document.getElementById('dates-modal-close-btn');
+
+      function openDatesModal(subjectName) {
+            const dates = importantDates[subjectName];
+            if (!dates || dates.length === 0) return;
+            datesModalTitle.textContent = `Missões Agendadas - ${subjectName}`;
+            datesModalList.innerHTML = dates.map(item => `
+                <li class="flex items-start">
+                    <span class="font-bold text-sm text-right w-24 pr-4">${item.date}</span>
+                    <span class="flex-1 text-sm">${item.event}</span>
+                </li>
+            `).join('');
+            datesModal.classList.remove('hidden');
+            setTimeout(() => {
+                datesModalContent.classList.remove('opacity-0', 'scale-95');
+            }, 10);
+        }
+
+      function closeDatesModal() {
+            datesModalContent.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                datesModal.classList.add('hidden');
+            }, 200);
+        }
+
+      document.body.addEventListener('click', (e) => {
+            const button = e.target.closest('.dates-btn');
+            if (button) {
+                openDatesModal(button.dataset.subjectName);
+            }
+        });
+        
+      datesModalCloseBtn.addEventListener('click', closeDatesModal);
+      datesModal.addEventListener('click', (e) => {
+            if (e.target === datesModal) {
+                closeDatesModal();
+            }
+        });
+      
+      const createTrailSparkle = (x, y) => {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'chakra-trail';
+        sparkle.style.left = `${x}px`;
+        sparkle.style.top = `${y}px`;
+        const size = Math.random() * 15 + 10;
+        sparkle.style.width = `${size}px`;
+        sparkle.style.height = `${size}px`;
+        document.body.appendChild(sparkle);
+        setTimeout(() => {
+          if (sparkle.parentElement) {
+            sparkle.remove();
+          }
+        }, 600);
+      };
+
+      document.addEventListener('mousemove', (e) => {
+        createTrailSparkle(e.pageX, e.pageY);
+      });
+      document.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        createTrailSparkle(touch.pageX, touch.pageY);
+      });
+
+      const createSparks = (x, y) => {
+        for (let i = 0; i < 6; i++) {
+          const shuriken = document.createElement('div');
+          shuriken.className = 'shuriken-spark';
+          shuriken.style.left = `${x}px`;
+          shuriken.style.top = `${y}px`;
+          const angle = Math.random() * 360;
+          const distance = Math.random() * 80 + 40;
+          shuriken.style.setProperty('--x', `${Math.cos(angle * Math.PI / 180) * distance}px`);
+          shuriken.style.setProperty('--y', `${Math.sin(angle * Math.PI / 180) * distance}px`);
+          document.body.appendChild(shuriken);
+          setTimeout(() => {
+            if (shuriken.parentElement) {
+              shuriken.remove();
+            }
+          }, 800);
+        }
+      };
+
+      document.addEventListener('mousedown', (e) => {
+        if (!e.target.closest('.grade-input') && !e.target.closest('.tri-tab-btn')) {
+            createSparks(e.pageX, e.pageY);
+        }
+      });
+
+      document.addEventListener('touchstart', (e) => {
+        if (!e.target.closest('.grade-input') && !e.target.closest('.tri-tab-btn')) {
+            const touch = e.touches[0];
+            createSparks(touch.pageX, touch.pageY);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
