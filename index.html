@@ -1,15 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>Untitled</title>
-    
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -739,7 +728,7 @@
 
     let currentTrimester = 'tri1';
     let appData = { tri1: {}, tri2: {}, tri3: {} };
-    const trimesterNames = { tri1: 'Arco 1 (Genin)', tri2: 'Arco 2 (Chūnin)', tri3: 'Arco 3 (Jōnin)' };
+    const trimesterNames = { tri1: 'Arco 1', tri2: 'Arco 2', tri3: 'Arco 3' };
     const trimesterShortNames = { tri1: 'Arco 1', tri2: 'Arco 2', tri3: 'Arco 3' };
 
     const VIEW_PREF_KEY = 'boletimViewPreference';
@@ -1003,20 +992,34 @@
         if (current.hasAny) el.classList.add(parseFloat(current.avg.toFixed(2)) >= 6.0 ? 'grade-ok' : 'grade-low');
       });
 
-      let activeTrimesters = 0;
-      if (tri1.hasAny) activeTrimesters++;
-      if (tri2.hasAny) activeTrimesters++;
-      if (tri3.hasAny) activeTrimesters++;
-      
-      const dynamicDivisor = activeTrimesters || 1;
-      const dynamicGeneralAvg = (tri1.avg + tri2.avg + tri3.avg) / dynamicDivisor;
+      // Média Geral fixada dividindo sempre por 3
+      const generalAvg = (tri1.avg + tri2.avg + tri3.avg) / 3;
 
-      document.querySelectorAll(`[id="general-average-${subjectIndex}"], [id="general-average-${subjectIndex}-summary"], [id="general-average-${subjectIndex}-history"]`).forEach(el => {
-        el.textContent = dynamicGeneralAvg.toFixed(1);
-        el.classList.remove('grade-ok', 'grade-low');
-        if (activeTrimesters > 0) el.classList.add(parseFloat(dynamicGeneralAvg.toFixed(2)) >= 6.0 ? 'grade-ok' : 'grade-low');
-      });
+      // Desktop: Exibe a Média Geral real
+      const deskGenAvg = document.getElementById(`general-average-${subjectIndex}`);
+      if (deskGenAvg) {
+          deskGenAvg.textContent = generalAvg.toFixed(1);
+          deskGenAvg.classList.remove('grade-ok', 'grade-low');
+          if (tri1.hasAny || tri2.hasAny || tri3.hasAny) deskGenAvg.classList.add(parseFloat(generalAvg.toFixed(2)) >= 6.0 ? 'grade-ok' : 'grade-low');
+      }
+
+      // Mobile Summary: Exibe a média do TRIMESTRE, mesmo o cabeçalho sendo "Média Geral"
+      const mobSumGenAvg = document.getElementById(`general-average-${subjectIndex}-summary`);
+      if (mobSumGenAvg) {
+          mobSumGenAvg.textContent = current.avg.toFixed(1);
+          mobSumGenAvg.classList.remove('grade-ok', 'grade-low');
+          if (current.hasAny) mobSumGenAvg.classList.add(parseFloat(current.avg.toFixed(2)) >= 6.0 ? 'grade-ok' : 'grade-low');
+      }
+
+      // History: Exibe a Média Geral real
+      const histGenAvg = document.getElementById(`general-average-${subjectIndex}-history`);
+      if (histGenAvg) {
+          histGenAvg.textContent = generalAvg.toFixed(1);
+          histGenAvg.classList.remove('grade-ok', 'grade-low');
+          if (tri1.hasAny || tri2.hasAny || tri3.hasAny) histGenAvg.classList.add(parseFloat(generalAvg.toFixed(2)) >= 6.0 ? 'grade-ok' : 'grade-low');
+      }
       
+      // Histórico Trimestres
       const tri1Cell = document.getElementById(`average-${subjectIndex}-history-tri1`);
       if (tri1Cell) {
           tri1Cell.textContent = tri1.hasAny ? tri1.avg.toFixed(1) : '-';
@@ -1033,19 +1036,57 @@
           tri3Cell.className = tri3.hasAny ? (tri3.avg >= 6 ? 'text-center font-bold grade-ok' : 'text-center font-bold grade-low') : 'text-center font-bold opacity-50';
       }
 
-      let statusText = '-', statusClass = '';
-      if (activeTrimesters > 0) {
-        if (dynamicGeneralAvg >= 6.0) { statusText = 'Chūnin Aprovado'; statusClass = 'status-aprovada'; }
-        else if (current.allFilled) {
-            if (dynamicGeneralAvg >= 4.0) { statusText = 'Missão de Recuperação'; statusClass = 'status-recuperacao'; }
-            else { statusText = 'Reprovado na Academia'; statusClass = 'status-reprovada'; }
-        } else { statusText = 'Cuidado, Genin!'; statusClass = 'status-atencao'; }
+      // Status do Trimestre Atual (Baseado na Média do Trimestre)
+      let currentStatusText = '-';
+      let currentStatusClass = '';
+      if (current.hasAny) {
+          if (current.avg >= 9.0) { currentStatusText = 'Rank S (Elite)'; currentStatusClass = 'status-aprovada'; }
+          else if (current.avg >= 7.0) { currentStatusText = 'Rank A (Jōnin)'; currentStatusClass = 'status-aprovada'; }
+          else if (current.avg >= 6.0) { currentStatusText = 'Rank B (Chūnin)'; currentStatusClass = 'status-aprovada'; }
+          else if (current.avg >= 4.0) { currentStatusText = 'Rank C (Atenção)'; currentStatusClass = 'status-atencao'; }
+          else { currentStatusText = 'Rank D (Risco)'; currentStatusClass = 'status-reprovada'; }
       }
       
-      document.querySelectorAll(`[id="status-${subjectIndex}"], [id="status-${subjectIndex}-summary"], [id="status-${subjectIndex}-history"]`).forEach(el => {
-        el.querySelector('span').textContent = statusText;
-        el.querySelector('span').className = `status-cell ${statusClass}`;
+      document.querySelectorAll(`[id="status-${subjectIndex}"], [id="status-${subjectIndex}-summary"]`).forEach(el => {
+        el.querySelector('span').textContent = currentStatusText;
+        el.querySelector('span').className = `status-cell ${currentStatusClass}`;
       });
+
+      // Status Geral (Histórico Anual)
+      let historyStatusText = '-';
+      let historyStatusClass = '';
+      const yearHasAnyGrade = tri1.hasAny || tri2.hasAny || tri3.hasAny;
+      const yearFinished = tri1.allFilled && tri2.allFilled && tri3.allFilled;
+
+      if (yearHasAnyGrade) {
+          if (!yearFinished) {
+              historyStatusText = 'Em Missão...';
+              if (generalAvg >= 6.0) {
+                  historyStatusClass = 'status-aprovada';
+              } else if (generalAvg >= 5.0) {
+                  historyStatusClass = 'status-atencao';
+              } else {
+                  historyStatusClass = 'status-reprovada';
+              }
+          } else {
+              if (generalAvg >= 6.0) {
+                  historyStatusText = 'Shinobi Aprovado';
+                  historyStatusClass = 'status-aprovada';
+              } else if (generalAvg >= 4.0) {
+                  historyStatusText = 'Exame de Recup.';
+                  historyStatusClass = 'status-recuperacao';
+              } else {
+                  historyStatusText = 'Reprovado na Acad.';
+                  historyStatusClass = 'status-reprovada';
+              }
+          }
+      }
+
+      const histStatus = document.getElementById(`status-${subjectIndex}-history`);
+      if (histStatus) {
+          histStatus.querySelector('span').textContent = historyStatusText;
+          histStatus.querySelector('span').className = `status-cell ${historyStatusClass}`;
+      }
       
       if (shouldSave) saveGradesToJSONBin();
     }
@@ -1604,8 +1645,4 @@
     });
   </script>
 </body>
-</html>
-    
-  </body>
-  
 </html>
