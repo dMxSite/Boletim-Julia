@@ -282,7 +282,7 @@
       color: var(--theme-primary-accent);
     }
 
-    #history-toggle {
+    #history-toggle, #mural-toggle {
       color: var(--theme-header-text);
     }
 
@@ -647,25 +647,62 @@
       <button data-trimester="tri3" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn">Arco 3</button>
     </div>
 
-    <div class="text-center mb-4">
-      <button id="history-toggle" class="font-semibold text-sm hover:opacity-80 transition-opacity flex items-center gap-1 mx-auto">
+    <!-- BOTÕES DE CONTROLE (HISTÓRICO E MURAL) LADO A LADO -->
+    <div class="flex flex-wrap justify-center items-center gap-6 mb-3">
+      <button id="history-toggle" class="font-semibold text-sm hover:opacity-80 transition-opacity flex items-center gap-1">
         <span id="history-toggle-text">Quebrar Selo: Arquivos da Hokage</span>
         <svg id="history-arrow" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
+
+      <button id="mural-toggle" class="font-semibold text-sm hover:opacity-80 transition-opacity flex items-center gap-1">
+        <span id="mural-toggle-text">Desenrolar Mural de Missões</span>
+        <svg id="mural-arrow" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
     </div>
 
-    <div id="history-content" class="collapsible-content mb-6">
-      <div class="desktop-card rounded-2xl shadow-lg overflow-hidden">
-        <div class="p-4 table-header-bg">
-          <h3 class="text-lg font-bold">Registro de Missões Shinobi (Histórico Anual)</h3>
+    <!-- CONTEÚDO HISTÓRICO -->
+    <div id="history-content" class="collapsible-content">
+      <div class="pb-4">
+        <div class="desktop-card rounded-2xl shadow-lg overflow-hidden">
+          <div class="p-4 table-header-bg">
+            <h3 class="text-lg font-bold">Registro de Missões Shinobi (Histórico Anual)</h3>
+          </div>
+          <div id="history-table-container" class="p-2 overflow-x-auto"></div>
         </div>
-        <div id="history-table-container" class="p-2 overflow-x-auto"></div>
       </div>
     </div>
 
-    <div id="view-switcher" class="flex justify-center items-center mb-6 p-1 rounded-full w-max mx-auto">
+    <!-- CONTEÚDO MURAL DE MISSÕES -->
+    <div id="mural-wrapper" class="collapsible-content">
+      <div class="pb-4">
+        <div class="desktop-card rounded-2xl shadow-lg overflow-hidden max-w-4xl mx-auto">
+            <div class="p-3 table-header-bg flex justify-between items-center">
+                <button id="mural-prev" class="p-2 rounded-full hover:bg-black hover:bg-opacity-10 transition-colors cursor-pointer" style="color: var(--theme-table-header-text);">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <div class="text-center">
+                    <h3 class="text-lg font-bold flex items-center justify-center gap-2" style="color: var(--theme-table-header-text);">
+                        Quadro de Missões da Semana
+                    </h3>
+                    <p id="mural-week-label" class="text-xs font-semibold opacity-80" style="color: var(--theme-table-header-text);"></p>
+                </div>
+                <button id="mural-next" class="p-2 rounded-full hover:bg-black hover:bg-opacity-10 transition-colors cursor-pointer" style="color: var(--theme-table-header-text);">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+            <div id="mural-content" class="p-4" style="background-color: var(--theme-bg);">
+                <!-- Js injects here -->
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROLO DE VISUALIZAÇÃO -->
+    <div id="view-switcher" class="flex justify-center items-center mb-3 p-1 rounded-full w-max mx-auto">
       <button data-view="desktop" class="switcher-btn px-4 py-2 text-sm font-semibold rounded-full transition-colors flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm2 0v8h10V5H5z" clip-rule="evenodd" />
@@ -734,44 +771,47 @@
     const VIEW_PREF_KEY = 'boletimViewPreference';
     const THEME_KEY = 'boletimTheme';
     
-    // DATAS ATUALIZADAS CONFORME A IMAGEM ENVIADA
+    // Variável para controlar a data atual vista no Mural (Inicia na data do dispositivo)
+    let currentMuralDate = new Date();
+
+    // DATAS E ASSUNTOS ATUALIZADOS CONFORME OS PLANEJAMENTOS
     const importantDates = {
       'Redação': [
-        { date: '12 de Março', event: 'Teste de Produção Textual (7,0)' },
-        { date: '16 de Abril', event: 'Reescrita do Teste (3,0)' },
+        { date: '12 de Março', event: 'Teste: Produção de Narrativa de terror (7,0 pontos)' },
+        { date: '16 de Abril', event: 'Reescrita do Teste (3,0 pontos)' },
         { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
       ],
       'Português': [
-        { date: '20 de Março', event: 'Teste 1' },
-        { date: '24 de Abril', event: 'Teste 2' },
+        { date: '20 de Março', event: 'Teste 1: Módulo 1 ao 4 - Revisão de classes gramaticais, Morfologia X sintaxe e Predicado' },
+        { date: '24 de Abril', event: 'Teste 2: Módulo 5 e 6 - Predicação, transitividade e complementos verbais' },
         { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
       ],
       'Matemática': [
-        { date: '17 de Março', event: 'Teste 1' },
-        { date: '14 de Abril', event: 'Teste 2' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+        { date: '17 de Março', event: 'Teste 1: Módulo 1 ao 3 - Números Reais e Cálculo Algébrico' },
+        { date: '14 de Abril', event: 'Teste 2: Módulo 4 ao 6 - Polinômios e Produtos Notáveis' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin: Prova com 20 questões' }
       ],
       'Inglês': [
-        { date: '17 de Março', event: 'Teste 1' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+        { date: '17 de Março', event: 'Teste 1: Capítulos 1 e 2 - Contáveis/Incontáveis, Quantificadores, Comparativos e Superlativos' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin: Prova Capítulos 5, 6 e 7' }
       ],
       'Geografia': [
-        { date: '16 de Março', event: 'Teste 1' },
-        { date: '20 de Abril', event: 'Teste 2' },
+        { date: '16 de Março', event: 'Teste 1: Módulo 1 - Regionalização Mundial' },
+        { date: '20 de Abril', event: 'Teste 2: Módulo 2 ao 5 - América Anglo-Saxônica' },
         { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
       ],
       'Filosofia': [
-        { date: '25 de Março', event: 'Teste 1' },
-        { date: '22 de Abril', event: 'Teste 2' },
+        { date: '25 de Março', event: 'Teste 1: Módulos 1 e 2 - Metáforas de espaço, Lógica, absurdo, humor e riso' },
+        { date: '22 de Abril', event: 'Teste 2: Módulo 3 - Conhecimento e causalidade' },
         { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
       ],
       'História': [
-        { date: '13 de Março', event: 'Teste 1' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+        { date: '13 de Março', event: 'Teste 1: Iluminismo e Revolução Industrial' },
+        { date: '11 a 15 de Maio', event: 'Exame Chūnin: Iluminismo, Revolução Industrial, França revolucionária e Era Napoleônica' }
       ],
       'Ciências': [
-        { date: '11 de Março', event: 'Teste 1' },
-        { date: '15 de Abril', event: 'Teste 2' },
+        { date: '11 de Março', event: 'Teste 1: Módulo 1 ao 5 - Movimentos da Terra/Lua, Clima e Previsão do tempo' },
+        { date: '15 de Abril', event: 'Teste 2: Módulo 6 ao 8 - Fontes de energia, Eletricidade e Circuito elétrico' },
         { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
       ],
       'Arte': [
@@ -1119,6 +1159,102 @@
       subjects.forEach((_, i) => updateRowUI(i, false));
     }
 
+    // --- FUNÇÕES DO MURAL DE MISSÕES --- //
+    function parseEventDates(dateStr) {
+        const currentYear = new Date().getFullYear();
+        const monthMap = { 'janeiro': 0, 'fevereiro': 1, 'março': 2, 'abril': 3, 'maio': 4, 'junho': 5, 'julho': 6, 'agosto': 7, 'setembro': 8, 'outubro': 9, 'novembro': 10, 'dezembro': 11 };
+        const lowerStr = dateStr.toLowerCase();
+        let month = -1;
+        for (let m in monthMap) {
+            if (lowerStr.includes(m)) {
+                month = monthMap[m];
+                break;
+            }
+        }
+        if (month === -1) return [];
+
+        const numbers = dateStr.match(/\d+/g)?.map(Number) || [];
+        if (numbers.length === 1) {
+            return [new Date(currentYear, month, numbers[0])];
+        } else if (numbers.length >= 2) {
+            const dates = [];
+            for (let d = numbers[0]; d <= numbers[1]; d++) {
+                dates.push(new Date(currentYear, month, d));
+            }
+            return dates;
+        }
+        return [];
+    }
+
+    function updateMural() {
+        const windowStart = new Date(currentMuralDate);
+        windowStart.setHours(0,0,0,0);
+        const windowEnd = new Date(currentMuralDate);
+        windowEnd.setDate(windowEnd.getDate() + 6);
+        windowEnd.setHours(23,59,59,999);
+
+        const label = document.getElementById('mural-week-label');
+        if(label) {
+            label.textContent = `${windowStart.toLocaleDateString('pt-BR', {day: '2-digit', month: 'short'})} a ${windowEnd.toLocaleDateString('pt-BR', {day: '2-digit', month: 'short'})}`;
+        }
+
+        const weeklyEvents = [];
+
+        for (let subject in importantDates) {
+            importantDates[subject].forEach(eventObj => {
+                const parsedDates = parseEventDates(eventObj.date);
+                
+                let matchDate = null;
+                for (let d of parsedDates) {
+                    if (d >= windowStart && d <= windowEnd) {
+                        matchDate = d;
+                        break;
+                    }
+                }
+                
+                if (matchDate) {
+                    weeklyEvents.push({
+                        subject: subject,
+                        event: eventObj.event,
+                        dateObj: matchDate,
+                        originalDateText: eventObj.date
+                    });
+                }
+            });
+        }
+
+        weeklyEvents.sort((a, b) => a.dateObj - b.dateObj);
+
+        const content = document.getElementById('mural-content');
+        if (!content) return;
+
+        if (weeklyEvents.length === 0) {
+            content.innerHTML = `<p class="text-center italic py-6 opacity-70" style="color: var(--theme-text-main);">Nenhuma missão agendada para estes dias. Aproveite para aprimorar seu chakra! 🍃</p>`;
+        } else {
+            let html = `<ul class="space-y-2">`;
+            weeklyEvents.forEach(item => {
+                const dateStr = item.dateObj.toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit'});
+                html += `
+                <li class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 p-3 rounded-lg border shadow-sm transition-all hover:scale-[1.01]" style="background-color: var(--theme-card-bg); border-color: var(--theme-card-border);">
+                    <span class="font-bold text-sm min-w-[60px] text-center px-2 py-1 rounded" style="background-color: var(--theme-card-header-bg); color: var(--theme-table-header-text);">${dateStr}</span>
+                    <span class="font-bold whitespace-nowrap" style="color: var(--theme-subject-text);">${item.subject}:</span>
+                    <span class="text-sm flex-1 leading-tight" style="color: var(--theme-text-main);">${item.event}</span>
+                </li>`;
+            });
+            html += `</ul>`;
+            content.innerHTML = html;
+        }
+        
+        // Ajustar altura caso o mural esteja aberto
+        const wrapper = document.getElementById('mural-wrapper');
+        if (wrapper && wrapper.style.maxHeight && wrapper.style.maxHeight !== '0px') {
+            setTimeout(() => {
+                wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+            }, 10);
+        }
+    }
+    // ------------------------------------ //
+
     function render() {
       renderHistory();
       const container = document.getElementById('bulletin-container');
@@ -1445,6 +1581,9 @@
       render(); 
       updateTabsUI();
       loadGradesFromJSONBin();
+      
+      // Inicia o Mural de Missões
+      updateMural();
 
       document.getElementById('trimester-tabs').addEventListener('click', (e) => {
         const btn = e.target.closest('.tri-tab-btn');
@@ -1455,6 +1594,20 @@
           populateInputsFromMemory(); 
         }
       });
+
+      // Navegação do Mural
+      const btnPrev = document.getElementById('mural-prev');
+      const btnNext = document.getElementById('mural-next');
+      if (btnPrev && btnNext) {
+          btnPrev.addEventListener('click', () => {
+              currentMuralDate.setDate(currentMuralDate.getDate() - 7);
+              updateMural();
+          });
+          btnNext.addEventListener('click', () => {
+              currentMuralDate.setDate(currentMuralDate.getDate() + 7);
+              updateMural();
+          });
+      }
 
       const themeTogglerContainer = document.getElementById('theme-toggler-container');
       const themeTogglerBtn = document.getElementById('theme-toggler-btn');
@@ -1480,6 +1633,22 @@
           }
         });
       }
+
+      document.getElementById('mural-toggle').addEventListener('click', () => {
+        const wrapper = document.getElementById('mural-wrapper');
+        const arrow = document.getElementById('mural-arrow');
+        const textEl = document.getElementById('mural-toggle-text');
+
+        if (wrapper.style.maxHeight && wrapper.style.maxHeight !== '0px') {
+          wrapper.style.maxHeight = null;
+          arrow.style.transform = 'rotate(0deg)';
+          textEl.textContent = 'Desenrolar Mural de Missões';
+        } else {
+          wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+          arrow.style.transform = 'rotate(180deg)';
+          textEl.textContent = 'Enrolar Mural de Missões';
+        }
+      });
 
       document.getElementById('view-switcher').addEventListener('click', (e) => {
         if (e.target.closest('button')) {
@@ -1631,13 +1800,13 @@
       };
 
       document.addEventListener('mousedown', (e) => {
-        if (!e.target.closest('.grade-input') && !e.target.closest('.tri-tab-btn')) {
+        if (!e.target.closest('.grade-input') && !e.target.closest('.tri-tab-btn') && !e.target.closest('#mural-prev') && !e.target.closest('#mural-next')) {
             createSparks(e.pageX, e.pageY);
         }
       });
 
       document.addEventListener('touchstart', (e) => {
-        if (!e.target.closest('.grade-input') && !e.target.closest('.tri-tab-btn')) {
+        if (!e.target.closest('.grade-input') && !e.target.closest('.tri-tab-btn') && !e.target.closest('#mural-prev') && !e.target.closest('#mural-next')) {
             const touch = e.touches[0];
             createSparks(touch.pageX, touch.pageY);
         }
