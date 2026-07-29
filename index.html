@@ -642,8 +642,8 @@
     </header>
 
     <div id="trimester-tabs" class="flex justify-center items-center gap-2 sm:gap-4 mb-4 flex-wrap">
-      <button data-trimester="tri1" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn active">Arco 1</button>
-      <button data-trimester="tri2" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn">Arco 2</button>
+      <button data-trimester="tri1" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn">Arco 1</button>
+      <button data-trimester="tri2" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn active">Arco 2</button>
       <button data-trimester="tri3" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn">Arco 3</button>
     </div>
 
@@ -763,7 +763,8 @@
     let debounceTimer;
     let isUpdatingFromRemote = false;
 
-    let currentTrimester = 'tri1';
+    // INICIANDO NO ARCO 2 POIS É A DATA ATUAL
+    let currentTrimester = 'tri2';
     let appData = { tri1: {}, tri2: {}, tri3: {} };
     const trimesterNames = { tri1: 'Arco 1', tri2: 'Arco 2', tri3: 'Arco 3' };
     const trimesterShortNames = { tri1: 'Arco 1', tri2: 'Arco 2', tri3: 'Arco 3' };
@@ -771,122 +772,246 @@
     const VIEW_PREF_KEY = 'boletimViewPreference';
     const THEME_KEY = 'boletimTheme';
     
-    // Variável para controlar a data atual vista no Mural (Inicia na data do dispositivo)
     let currentMuralDate = new Date();
 
-    // DATAS E ASSUNTOS ATUALIZADOS CONFORME OS PLANEJAMENTOS
+    // CALENDÁRIO HÍBRIDO: CONTÉM ARCO 1 E ARCO 2
     const importantDates = {
-      'Redação': [
-        { date: '12 de Março', event: 'Teste: Produção de Narrativa de terror (7,0 pontos)' },
-        { date: '16 de Abril', event: 'Reescrita do Teste (3,0 pontos)' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
-      ],
-      'Português': [
-        { date: '20 de Março', event: 'Teste 1: Módulo 1 ao 4 - Revisão de classes gramaticais, Morfologia X sintaxe e Predicado' },
-        { date: '24 de Abril', event: 'Teste 2: Módulo 5 e 6 - Predicação, transitividade e complementos verbais' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
-      ],
-      'Matemática': [
-        { date: '17 de Março', event: 'Teste 1: Módulo 1 ao 3 - Números Reais e Cálculo Algébrico' },
-        { date: '14 de Abril', event: 'Teste 2: Módulo 4 ao 6 - Polinômios e Produtos Notáveis' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin: Prova com 20 questões' }
-      ],
-      'Inglês': [
-        { date: '17 de Março', event: 'Teste 1: Capítulos 1 e 2 - Contáveis/Incontáveis, Quantificadores, Comparativos e Superlativos' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin: Prova Capítulos 5, 6 e 7' }
-      ],
-      'Geografia': [
-        { date: '16 de Março', event: 'Teste 1: Módulo 1 - Regionalização Mundial' },
-        { date: '20 de Abril', event: 'Teste 2: Módulo 2 ao 5 - América Anglo-Saxônica' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
-      ],
-      'Filosofia': [
-        { date: '25 de Março', event: 'Teste 1: Módulos 1 e 2 - Metáforas de espaço, Lógica, absurdo, humor e riso' },
-        { date: '22 de Abril', event: 'Teste 2: Módulo 3 - Conhecimento e causalidade' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
-      ],
-      'História': [
-        { date: '13 de Março', event: 'Teste 1: Iluminismo e Revolução Industrial' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin: Iluminismo, Revolução Industrial, França revolucionária e Era Napoleônica' }
-      ],
-      'Ciências': [
-        { date: '11 de Março', event: 'Teste 1: Módulo 1 ao 5 - Movimentos da Terra/Lua, Clima e Previsão do tempo' },
-        { date: '15 de Abril', event: 'Teste 2: Módulo 6 ao 8 - Fontes de energia, Eletricidade e Circuito elétrico' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
-      ],
-      'Arte': [
-        { date: '11 de Março', event: 'Teste 1' },
-        { date: '08 de Abril', event: 'Teste 2' },
-        { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
-      ]
+      tri1: {
+          'Redação': [
+            { date: '12 de Março', event: 'Teste: Produção de Narrativa de terror (7,0 pontos)' },
+            { date: '16 de Abril', event: 'Reescrita do Teste (3,0 pontos)' },
+            { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+          ],
+          'Português': [
+            { date: '20 de Março', event: 'Teste 1: Módulo 1 ao 4' },
+            { date: '24 de Abril', event: 'Teste 2: Módulo 5 e 6' },
+            { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+          ],
+          'Matemática': [
+            { date: '17 de Março', event: 'Teste 1: Módulo 1 ao 3' },
+            { date: '14 de Abril', event: 'Teste 2: Módulo 4 ao 6' },
+            { date: '11 a 15 de Maio', event: 'Exame Chūnin: Prova com 20 questões' }
+          ],
+          'Inglês': [
+            { date: '17 de Março', event: 'Teste 1: Capítulos 1 e 2' },
+            { date: '11 a 15 de Maio', event: 'Exame Chūnin: Prova Capítulos 5, 6 e 7' }
+          ],
+          'Geografia': [
+            { date: '16 de Março', event: 'Teste 1: Módulo 1' },
+            { date: '20 de Abril', event: 'Teste 2: Módulo 2 ao 5' },
+            { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+          ],
+          'Filosofia': [
+            { date: '25 de Março', event: 'Teste 1: Módulos 1 e 2' },
+            { date: '22 de Abril', event: 'Teste 2: Módulo 3' },
+            { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+          ],
+          'História': [
+            { date: '13 de Março', event: 'Teste 1: Iluminismo e Revolução Industrial' },
+            { date: '11 a 15 de Maio', event: 'Exame Chūnin: Prova' }
+          ],
+          'Ciências': [
+            { date: '11 de Março', event: 'Teste 1: Módulo 1 ao 5' },
+            { date: '15 de Abril', event: 'Teste 2: Módulo 6 ao 8' },
+            { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+          ],
+          'Arte': [
+            { date: '11 de Março', event: 'Teste 1' },
+            { date: '08 de Abril', event: 'Teste 2' },
+            { date: '11 a 15 de Maio', event: 'Exame Chūnin (Semana de Provas)' }
+          ]
+      },
+      tri2: {
+          'Redação': [
+            { date: '16 de Julho', event: 'Teste: Produção Textual - Resenha Crítica' },
+            { date: '27 a 31 de Julho', event: 'Debate: Mudanças Climáticas (Projeto)' },
+            { date: '30 de Julho', event: 'Reescrita do Teste' },
+            { date: '31 de Agosto a 04 de Setembro', event: 'Exame Chūnin (Semana de Provas)' }
+          ],
+          'Português': [
+            { date: '18 de Junho', event: 'Teste 1: Mód. 8 a 10 (Regência, Predicativo, Concordância)' },
+            { date: '16 a 17 de Julho', event: 'Apresentação: Gênero Textual - Artigo de Lei' },
+            { date: '30 de Julho', event: 'Teste 2: Mód. 11 e 12 (Compl. Nominal e Distinções)' },
+            { date: '31 de Agosto a 04 de Setembro', event: 'Exame Chūnin (Semana de Provas)' }
+          ],
+          'Matemática': [
+            { date: '15 de Junho', event: 'Teste 1: Mód. 9 a 11 (Eq. e Sistemas do 1º Grau)' },
+            { date: '03 de Agosto', event: 'Teste 2: Mód. 12 a 15 (Inequações, Eq. 2º, Estatística, Ângulos)' },
+            { date: '31 de Agosto a 04 de Setembro', event: 'Exame Chūnin: Prova com 20 questões' }
+          ],
+          'Inglês': [
+            { date: '10 de Junho', event: 'Teste 1: Cap. 11 e 12 (Passado Simples/Contínuo, Modais)' },
+            { date: '13 a 17 de Julho', event: 'Apresentação de Projeto: Let\'s Save Our Planet' },
+            { date: '05 de Agosto', event: 'Teste 2: Cap. 13 e 14 (Prefixos/Sufixos, Adv. Frequência)' },
+            { date: '31 de Agosto a 04 de Setembro', event: 'Exame Chūnin: Prova Cap. 15' }
+          ],
+          'Geografia': [
+            { date: '15 de Junho', event: 'Teste 1: Mód. 8 e 9 (América Latina: Naturais e Socioeconômicos)' },
+            { date: '27 a 31 de Julho', event: 'Apresentação em grupo: Módulos 10, 11 e 12' },
+            { date: '03 de Agosto', event: 'Teste 2: Mód. 10 a 12 (México, América Central e Caribe)' },
+            { date: '31 de Agosto a 04 de Setembro', event: 'Exame Chūnin (Semana de Provas)' }
+          ],
+          'Filosofia': [
+            { date: '29 de Julho', event: 'Teste 10,0: Mód. 3 a 5 (Conhecimento, Natureza, Realidade)' },
+            { date: '22 a 12 de Agosto', event: 'Projeto: Teatro e Apresentação de Cenas Filosóficas' },
+            { date: '31 de Agosto a 04 de Setembro', event: 'Exame Chūnin: Prova 10,0' }
+          ],
+          'História': [
+            { date: '17 de Julho', event: 'Teste 1: Vinda da Família Real e Independência do Brasil' },
+            { date: '03 a 07 de Agosto', event: 'Apresentação Projeto: Deuses da Grécia / Brasil Império' },
+            { date: '14 de Agosto', event: 'Teste 2: Primeiro e Segundo Reinado' },
+            { date: '31 de Agosto a 04 de Setembro', event: 'Exame Chūnin: Prova do II Trimestre' }
+          ],
+          'Ciências': [
+            { date: '15 de Julho', event: 'Teste 1: Módulos 8 a 11' },
+            { date: '12 de Agosto', event: 'Teste 2: Módulos 12 a 15' },
+            { date: '31 de Agosto a 04 de Setembro', event: 'Exame Chūnin (Semana de Provas)' }
+          ],
+          'Arte': [
+            { date: '15 de Julho', event: 'Teste 1' },
+            { date: '12 de Agosto', event: 'Teste 2: Pintura na Tela!' },
+            { date: '31 de Agosto a 04 de Setembro', event: 'Exame Chūnin (Semana de Provas)' }
+          ]
+      }
     };
 
-    const subjects = [{
-      name: 'Redação',
-      n1: [{ name: 'Proj. Leitura', max: 7 }, { name: 'Atividades', max: 3 }],
-      n2: [{ name: 'Teste', max: 7 }, { name: 'Reescrita', max: 3 }],
-      n3: 10
-    }, {
-      name: 'Português',
-      n1: [{ name: 'Ativ. PH', max: 3 }, { name: 'Projeto', max: 4 }, { name: 'Atividades/Qual.', max: 3 }],
-      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
-      n3: 10
-    }, {
-      name: 'Matemática',
-      n1: [{ name: 'Ativ. PH', max: 3 }, { name: 'Ativ. Sala', max: 5 }, { name: 'Projeto', max: 2 }],
-      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
-      n3: 10
-    }, {
-      name: 'Inglês',
-      n1: [{ name: 'Projeto', max: 5 }, { name: 'Participação', max: 2 }, { name: 'Ativ Casa/Sala', max: 3 }],
-      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
-      n3: 10
-    }, {
-      name: 'Geografia',
-      n1: [{ name: 'PH', max: 3 }, { name: 'Trabalho Grupo', max: 3 }, { name: 'Mód/Caderno', max: 3 }, { name: 'Qualitativo', max: 1 }],
-      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
-      n3: 10
-    }, {
-      name: 'Arte',
-      n1: [{ name: 'Atividades', max: 10 }],
-      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
-      n3: 10
-    }, {
-      name: 'Filosofia',
-      n1: [{ name: 'Ativ. Livro', max: 4 }, { name: 'Projeto', max: 4 }, { name: 'Participação', max: 2 }],
-      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
-      n3: 10
-    }, {
-      name: 'Ciências',
-      n1: [{ name: 'Ativ. Módulos', max: 2 }, { name: 'Aula Prática', max: 2 }, { name: 'Ativ. Folhas', max: 3 }, { name: 'PH', max: 3 }],
-      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
-      n3: 10
-    }, {
-      name: 'História',
-      n1: [{ name: 'Ativ. PH', max: 3 }, { name: 'Ativ. Sala', max: 4 }, { name: 'Projeto', max: 3 }],
-      n2: [{ name: 'Teste 1', max: 10 }],
-      n3: 10
-    }, {
-      name: 'Educação Física',
-      shortName: 'Ed. Física',
-      n1: [{ name: 'Atividades', max: 10 }],
-      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
-      n3: 10
-    }, {
-      name: 'Ensino Religioso',
-      shortName: 'Ens. Religioso',
-      n1: [{ name: 'Atividades', max: 10 }],
-      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
-      n3: 10
-    }, {
-      name: 'Projeto de Vida',
-      shortName: 'Proj. de Vida',
-      n1: [{ name: 'Atividades', max: 10 }],
-      n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
-      n3: 10
-    }];
+    // MATRIZ DINÂMICA (MUDA CONFORME O ARCO SELECIONADO)
+    const subjectsStructure = {
+      tri1: [{
+          name: 'Redação',
+          n1: [{ name: 'Proj. Leitura', max: 7 }, { name: 'Atividades', max: 3 }],
+          n2: [{ name: 'Teste', max: 7 }, { name: 'Reescrita', max: 3 }],
+          n3: 10
+        }, {
+          name: 'Português',
+          n1: [{ name: 'Ativ. PH', max: 3 }, { name: 'Projeto', max: 4 }, { name: 'Ativ./Qual.', max: 3 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Matemática',
+          n1: [{ name: 'Ativ. PH', max: 3 }, { name: 'Ativ. Sala', max: 5 }, { name: 'Projeto', max: 2 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Inglês',
+          n1: [{ name: 'Projeto', max: 5 }, { name: 'Participação', max: 2 }, { name: 'Ativ Casa/Sala', max: 3 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Geografia',
+          n1: [{ name: 'PH', max: 3 }, { name: 'Trab. Grupo', max: 3 }, { name: 'Mód/Caderno', max: 3 }, { name: 'Qualitativo', max: 1 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Arte',
+          n1: [{ name: 'Atividades', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Filosofia',
+          n1: [{ name: 'Ativ. Livro', max: 4 }, { name: 'Projeto', max: 4 }, { name: 'Participação', max: 2 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Ciências',
+          n1: [{ name: 'Ativ. Módulos', max: 2 }, { name: 'Aula Prática', max: 2 }, { name: 'Ativ. Folhas', max: 3 }, { name: 'PH', max: 3 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'História',
+          n1: [{ name: 'Ativ. PH', max: 3 }, { name: 'Ativ. Sala', max: 4 }, { name: 'Projeto', max: 3 }],
+          n2: [{ name: 'Teste 1', max: 10 }],
+          n3: 10
+        }, {
+          name: 'Educação Física',
+          shortName: 'Ed. Física',
+          n1: [{ name: 'Atividades', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Ensino Religioso',
+          shortName: 'Ens. Religioso',
+          n1: [{ name: 'Atividades', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Projeto de Vida',
+          shortName: 'Proj. de Vida',
+          n1: [{ name: 'Atividades', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }],
+      tri2: [{
+          name: 'Redação',
+          n1: [{ name: 'Projeto', max: 5 }, { name: 'Olim. Cores', max: 2 }, { name: 'Atividades', max: 3 }],
+          n2: [{ name: 'Teste', max: 7 }, { name: 'Reescrita', max: 3 }],
+          n3: 10
+        }, {
+          name: 'Português',
+          n1: [{ name: 'PH', max: 1 }, { name: 'Ativ. Mód', max: 4 }, { name: 'Projeto', max: 5 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Matemática',
+          n1: [{ name: 'Ativ. PH', max: 1 }, { name: 'Ativ. Sala', max: 5 }, { name: 'Projeto', max: 2 }, { name: 'Olim. Cores', max: 2 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Inglês',
+          n1: [{ name: 'Projeto', max: 5 }, { name: 'Olim. Cores', max: 2 }, { name: 'Ativ. Sala/Casa', max: 2 }, { name: 'Participação', max: 1 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Geografia',
+          n1: [{ name: 'PH', max: 1 }, { name: 'Olim. Cores', max: 2 }, { name: 'Trab. Grupo', max: 4 }, { name: 'Ativ/Partic', max: 3 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Arte',
+          n1: [{ name: 'Ativ/Proj.', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Filosofia',
+          n1: [{ name: 'Ex. Livro/Comp.', max: 3 }, { name: 'Teatro', max: 4 }, { name: 'Olim. Cores', max: 2 }, { name: 'Escr. Liberdade', max: 1 }],
+          n2: [{ name: 'Teste', max: 10 }],
+          n3: 10
+        }, {
+          name: 'Ciências',
+          n1: [{ name: 'Ativ. Folhas', max: 3 }, { name: 'Ativ. Módulo', max: 2 }, { name: 'Prática', max: 2 }, { name: 'Olim. Cores', max: 2 }, { name: 'PH', max: 1 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'História',
+          n1: [{ name: 'PH', max: 1 }, { name: 'Ativ. Sala', max: 5 }, { name: 'Proj. Deuses', max: 2 }, { name: 'Olim. Cores', max: 2 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Educação Física',
+          shortName: 'Ed. Física',
+          n1: [{ name: 'Atividades', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Ensino Religioso',
+          shortName: 'Ens. Religioso',
+          n1: [{ name: 'Atividades', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Projeto de Vida',
+          shortName: 'Proj. de Vida',
+          n1: [{ name: 'Atividades', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }],
+        tri3: [] // Placeholder
+    };
     
-    const MAX_N1_COMPONENTS = 4;
+    // O subjects atual lê da matriz baseada no trimestre atual
+    let subjects = subjectsStructure[currentTrimester];
+    
+    const MAX_N1_COMPONENTS = 5; // Aumentado para 5 pq Ciencias Arco 2 pede 5.
     const MAX_N2_COMPONENTS = 2;
 
     function evaluateExpression(expression) {
@@ -958,12 +1083,16 @@
     }
 
     function getTrimesterStats(subjectIndex, triKey) {
+      // É preciso usar a estrutura do trimestre que está sendo calculado
+      const struct = subjectsStructure[triKey];
+      if (!struct || !struct[subjectIndex]) return { totalN1: 0, totalN2: 0, totalN3: 0, avg: 0, hasAny: false, allFilled: false, n1HasInput: false, n2HasInput: false, n3HasInput: false };
+
       const data = appData[triKey] && appData[triKey][subjectIndex] ? appData[triKey][subjectIndex] : {};
       let totalN1 = 0, totalN2 = 0, totalN3 = 0;
       let hasAny = false;
       let allFilled = true;
 
-      subjects[subjectIndex].n1.forEach((comp, i) => {
+      struct[subjectIndex].n1.forEach((comp, i) => {
           const val = data.n1 && data.n1[i] !== undefined && data.n1[i] !== '' ? data.n1[i] : null;
           if (val !== null) {
               hasAny = true;
@@ -971,7 +1100,7 @@
           } else allFilled = false;
       });
 
-      subjects[subjectIndex].n2.forEach((comp, i) => {
+      struct[subjectIndex].n2.forEach((comp, i) => {
           const val = data.n2 && data.n2[i] !== undefined && data.n2[i] !== '' ? data.n2[i] : null;
           if (val !== null) {
               hasAny = true;
@@ -982,7 +1111,7 @@
       const valN3 = data.n3 && data.n3[0] !== undefined && data.n3[0] !== '' ? data.n3[0] : null;
       if (valN3 !== null) {
           hasAny = true;
-          totalN3 += Math.min(evaluateExpression(valN3), subjects[subjectIndex].n3);
+          totalN3 += Math.min(evaluateExpression(valN3), struct[subjectIndex].n3);
       } else allFilled = false;
 
       return {
@@ -1156,7 +1285,7 @@
           }
       });
 
-      subjects.forEach((_, i) => updateRowUI(i, false));
+      subjectsStructure[currentTrimester].forEach((_, i) => updateRowUI(i, false));
     }
 
     // --- FUNÇÕES DO MURAL DE MISSÕES --- //
@@ -1200,28 +1329,33 @@
 
         const weeklyEvents = [];
 
-        for (let subject in importantDates) {
-            importantDates[subject].forEach(eventObj => {
-                const parsedDates = parseEventDates(eventObj.date);
-                
-                let matchDate = null;
-                for (let d of parsedDates) {
-                    if (d >= windowStart && d <= windowEnd) {
-                        matchDate = d;
-                        break;
+        // O Mural varre todos os trimestres para encontrar eventos globais na semana
+        ['tri1', 'tri2', 'tri3'].forEach(triKey => {
+            if(!importantDates[triKey]) return;
+            
+            for (let subject in importantDates[triKey]) {
+                importantDates[triKey][subject].forEach(eventObj => {
+                    const parsedDates = parseEventDates(eventObj.date);
+                    
+                    let matchDate = null;
+                    for (let d of parsedDates) {
+                        if (d >= windowStart && d <= windowEnd) {
+                            matchDate = d;
+                            break;
+                        }
                     }
-                }
-                
-                if (matchDate) {
-                    weeklyEvents.push({
-                        subject: subject,
-                        event: eventObj.event,
-                        dateObj: matchDate,
-                        originalDateText: eventObj.date
-                    });
-                }
-            });
-        }
+                    
+                    if (matchDate) {
+                        weeklyEvents.push({
+                            subject: subject,
+                            event: eventObj.event,
+                            dateObj: matchDate,
+                            originalDateText: eventObj.date
+                        });
+                    }
+                });
+            }
+        });
 
         weeklyEvents.sort((a, b) => a.dateObj - b.dateObj);
 
@@ -1245,7 +1379,6 @@
             content.innerHTML = html;
         }
         
-        // Ajustar altura caso o mural esteja aberto
         const wrapper = document.getElementById('mural-wrapper');
         if (wrapper && wrapper.style.maxHeight && wrapper.style.maxHeight !== '0px') {
             setTimeout(() => {
@@ -1256,9 +1389,16 @@
     // ------------------------------------ //
 
     function render() {
+      subjects = subjectsStructure[currentTrimester] || []; // Atualiza o array ativo
       renderHistory();
       const container = document.getElementById('bulletin-container');
       container.innerHTML = '<h4>&nbsp;</h4>'; 
+      
+      if(subjects.length === 0) {
+           container.innerHTML = `<div class="text-center p-12 desktop-card rounded-2xl shadow"><h2 class="text-2xl font-bold opacity-50">Selo Fechado. O Arco ainda não começou.</h2></div>`;
+           return;
+      }
+
       const currentView = localStorage.getItem(VIEW_PREF_KEY) || (window.innerWidth < 768 ? 'mobile' : 'desktop');
       if (currentView === 'desktop') {
         container.innerHTML += `
@@ -1304,7 +1444,9 @@
             const subjectCell = row.insertCell();
             subjectCell.className = 'subject-cell';
 
-            const calendarIcon = (currentTrimester === 'tri1' && importantDates[subject.name]) ?
+            // O ícone puxa os dados SOMENTE do trimestre atual
+            const hasDates = importantDates[currentTrimester] && importantDates[currentTrimester][subject.name];
+            const calendarIcon = hasDates ?
                 `<button class="dates-btn" data-subject-name="${subject.name}" title="Missões Agendadas">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
@@ -1313,6 +1455,7 @@
 
             subjectCell.innerHTML = `<div class="subject-cell-content"><span>${subject.name}</span>${calendarIcon}</div>`;
 
+            // Renderizar as colunas N1 fixas ao maximo, deixando vazias se nao existirem na disciplina atual
             for (let j = 0; j < MAX_N1_COMPONENTS; j++) row.insertCell().appendChild(subject.n1[j] ? createGradeInput(i, 'n1', j, subject.n1[j]) : document.createTextNode(''));
             row.insertCell().outerHTML = `<td id="total-n1-${i}" class="total-col group-divider">0.0</td>`;
             for (let j = 0; j < MAX_N2_COMPONENTS; j++) row.insertCell().appendChild(subject.n2[j] ? createGradeInput(i, 'n2', j, subject.n2[j]) : document.createTextNode(''));
@@ -1375,7 +1518,8 @@
       subjects.forEach((subject, i) => {
         const card = document.createElement('div');
         card.className = 'mobile-card';
-        const calendarIcon = (currentTrimester === 'tri1' && importantDates[subject.name]) ?
+        const hasDates = importantDates[currentTrimester] && importantDates[currentTrimester][subject.name];
+        const calendarIcon = hasDates ?
                 `<button class="dates-btn" data-subject-name="${subject.name}" title="Missões Agendadas">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
@@ -1446,7 +1590,10 @@
                         </tr>
                     </thead>
                     <tbody>`;
-      subjects.forEach((subject, i) => {
+      
+      // Usa a matriz padrao do tri1 (que tem todos os nomes basicos) para listar o historico
+      const baseSubjects = subjectsStructure['tri1'];              
+      baseSubjects.forEach((subject, i) => {
         const displayName = subject.shortName || subject.name;
         historyTableHTML += `
                     <tr style="border-bottom: 1px solid var(--theme-divider-color);">
@@ -1582,7 +1729,6 @@
       updateTabsUI();
       loadGradesFromJSONBin();
       
-      // Inicia o Mural de Missões
       updateMural();
 
       document.getElementById('trimester-tabs').addEventListener('click', (e) => {
@@ -1595,7 +1741,6 @@
         }
       });
 
-      // Navegação do Mural
       const btnPrev = document.getElementById('mural-prev');
       const btnNext = document.getElementById('mural-next');
       if (btnPrev && btnNext) {
@@ -1634,22 +1779,6 @@
         });
       }
 
-      document.getElementById('mural-toggle').addEventListener('click', () => {
-        const wrapper = document.getElementById('mural-wrapper');
-        const arrow = document.getElementById('mural-arrow');
-        const textEl = document.getElementById('mural-toggle-text');
-
-        if (wrapper.style.maxHeight && wrapper.style.maxHeight !== '0px') {
-          wrapper.style.maxHeight = null;
-          arrow.style.transform = 'rotate(0deg)';
-          textEl.textContent = 'Desenrolar Mural de Missões';
-        } else {
-          wrapper.style.maxHeight = wrapper.scrollHeight + "px";
-          arrow.style.transform = 'rotate(180deg)';
-          textEl.textContent = 'Enrolar Mural de Missões';
-        }
-      });
-
       document.getElementById('view-switcher').addEventListener('click', (e) => {
         if (e.target.closest('button')) {
           const newView = e.target.closest('button').dataset.view;
@@ -1667,11 +1796,27 @@
         if (content.style.maxHeight && content.style.maxHeight !== '0px') {
           content.style.maxHeight = null;
           arrow.style.transform = 'rotate(0deg)';
-          textEl.textContent = 'Quebrar Selo: Histórico Shinobi';
+          textEl.textContent = 'Quebrar Selo: Arquivos da Hokage';
         } else {
           content.style.maxHeight = content.scrollHeight + "px";
           arrow.style.transform = 'rotate(180deg)';
-          textEl.textContent = 'Restaurar Selo: Histórico Shinobi';
+          textEl.textContent = 'Restaurar Selo: Arquivos da Hokage';
+        }
+      });
+      
+      document.getElementById('mural-toggle').addEventListener('click', () => {
+        const wrapper = document.getElementById('mural-wrapper');
+        const arrow = document.getElementById('mural-arrow');
+        const textEl = document.getElementById('mural-toggle-text');
+
+        if (wrapper.style.maxHeight && wrapper.style.maxHeight !== '0px') {
+          wrapper.style.maxHeight = null;
+          arrow.style.transform = 'rotate(0deg)';
+          textEl.textContent = 'Desenrolar Mural de Missões';
+        } else {
+          wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+          arrow.style.transform = 'rotate(180deg)';
+          textEl.textContent = 'Enrolar Mural de Missões';
         }
       });
 
@@ -1720,7 +1865,9 @@
       const datesModalCloseBtn = document.getElementById('dates-modal-close-btn');
 
       function openDatesModal(subjectName) {
-            const dates = importantDates[subjectName];
+            // Agora as missões agendadas são referentes ao trimestre atual da aba
+            const datesDict = importantDates[currentTrimester] || {};
+            const dates = datesDict[subjectName];
             if (!dates || dates.length === 0) return;
             datesModalTitle.textContent = `Missões Agendadas - ${subjectName}`;
             datesModalList.innerHTML = dates.map(item => `
