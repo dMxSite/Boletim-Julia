@@ -643,8 +643,8 @@
 
     <div id="trimester-tabs" class="flex justify-center items-center gap-2 sm:gap-4 mb-4 flex-wrap">
       <button data-trimester="tri1" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn">Arco 1</button>
-      <button data-trimester="tri2" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn active">Arco 2</button>
-      <button data-trimester="tri3" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn">Arco 3</button>
+      <button data-trimester="tri2" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn">Arco 2</button>
+      <button data-trimester="tri3" class="px-6 py-2 rounded-full font-bold text-sm transition-all tri-tab-btn active">Arco 3</button>
     </div>
 
     <!-- BOTÕES DE CONTROLE (HISTÓRICO E MURAL) LADO A LADO -->
@@ -763,8 +763,8 @@
     let debounceTimer;
     let isUpdatingFromRemote = false;
 
-    // INICIANDO NO ARCO 2 POIS É A DATA ATUAL
-    let currentTrimester = 'tri2';
+    // INICIANDO NO ARCO 3 POIS É A DATA ATUAL
+    let currentTrimester = 'tri3';
     let appData = { tri1: {}, tri2: {}, tri3: {} };
     const trimesterNames = { tri1: 'Arco 1', tri2: 'Arco 2', tri3: 'Arco 3' };
     const trimesterShortNames = { tri1: 'Arco 1', tri2: 'Arco 2', tri3: 'Arco 3' };
@@ -774,7 +774,7 @@
     
     let currentMuralDate = new Date();
 
-    // CALENDÁRIO HÍBRIDO: CONTÉM ARCO 1 E ARCO 2
+    // CALENDÁRIO HÍBRIDO: CONTÉM ARCO 1, ARCO 2 E ARCO 3
     const importantDates = {
       tri1: {
           'Redação': [
@@ -871,6 +871,68 @@
             { date: '15 de Julho', event: 'Teste 1' },
             { date: '12 de Agosto', event: 'Teste 2: Pintura na Tela!' },
             { date: '31 de Agosto a 04 de Setembro', event: 'Exame Chūnin (Semana de Provas)' }
+          ]
+      },
+      tri3: {
+          'Redação': [
+            { date: '22 de Outubro', event: 'Teste 1: Escrita (7,0 pontos)' },
+            { date: '26 a 30 de Outubro', event: 'Projeto de Leitura: Apresentação em grupo - Poema para Slam (Batalha de Rimas)' },
+            { date: '02 a 06 de Novembro', event: 'Continuação das apresentações: Poema para Slam' },
+            { date: '12 de Novembro', event: 'Teste 2: Reescrita (3,0 pontos)' },
+            { date: '01 de Dezembro', event: 'Exame Chūnin: Prova (Questões 21 a 40)' }
+          ],
+          'Português': [
+            { date: '24 a 25 de Setembro', event: 'Apresentação: Telejornal "Brasil em Muitas Vozes" (2,0 pontos)' },
+            { date: '08 a 09 de Outubro', event: 'Entrega do Mapa Mental: Figuras de Linguagem (1,0 ponto)' },
+            { date: '22 a 23 de Outubro', event: 'Entrega da Tabela: Emprego do Hífen (1,0 ponto)' },
+            { date: '23 de Outubro', event: 'Teste 1 do III Trimestre' },
+            { date: '05 a 06 de Novembro', event: 'Entrega do Registro Biográfico: Rosana Rios (1,0 ponto)' },
+            { date: '10 de Novembro', event: 'Teste 2 do III Trimestre' },
+            { date: '01 de Dezembro', event: 'Exame Chūnin: Prova (Questões 1 a 20)' }
+          ],
+          'Matemática': [
+            { date: '20 de Outubro', event: 'Teste 1: Mód. 18 a 20 (Triângulos, Quadriláteros e Polígonos)' },
+            { date: '16 de Novembro', event: 'Teste 2: Mód. 21 a 23 (Círculo e Circunferência, Volume e Capacidade, Eventos e Probabilidade)' },
+            { date: '03 de Dezembro', event: 'Exame Chūnin: Prova com 20 questões' }
+          ],
+          'Inglês': [
+            { date: '12 a 16 de Outubro', event: 'Teste 1 (Present Simple e Zero Conditional)' },
+            { date: '26 a 30 de Outubro', event: 'Projeto: Apresentação sobre um país (cartaz + apresentação oral em inglês)' },
+            { date: '02 a 13 de Novembro', event: 'Projeto: Continuação das apresentações sobre os países' },
+            { date: '30 de Novembro', event: 'Exame Chūnin: Prova (Questões 21 a 30 - Past Continuous e Zero Conditional)' }
+          ],
+          'Geografia': [
+            { date: '28 a 30 de Setembro', event: 'Apresentação em grupo (semana de 28/09 a 02/10) (4,0 pontos)' },
+            { date: '26 de Outubro', event: 'Teste (10,0 pontos)' },
+            { date: '09 a 13 de Novembro', event: 'Entrega da pesquisa: Aspectos físicos da África' },
+            { date: '23 a 27 de Novembro', event: 'Entrega dos vistos' },
+            { date: '30 de Novembro', event: 'Exame Chūnin: Prova (Questões 01 a 20)' }
+          ],
+          'Filosofia': [
+            { date: '21 de Outubro', event: 'Teste (10,0 pontos)' },
+            { date: '28 de Outubro', event: 'Projeto: Apresentação escrita de Cenas Filosóficas (5,0 pontos)' },
+            { date: '04 de Novembro', event: 'Projeto: Continuação das apresentações de Cenas Filosóficas' },
+            { date: '02 de Dezembro', event: 'Exame Chūnin: Prova (Questões 21 a 30)' }
+          ],
+          'História': [
+            { date: '19 a 23 de Outubro', event: 'Projeto da Unidade: A Europa pré-I Guerra e I Guerra Mundial (3,0 pontos)' },
+            { date: '30 de Outubro', event: 'Teste 1: Imperialismo na África e na Ásia, e a Europa antes da I Guerra (5 questões)' },
+            { date: '20 de Novembro', event: 'Teste 2: A Primeira Guerra Mundial (5 questões)' },
+            { date: '27 de Novembro', event: 'Exame Chūnin: Prova (Questões 1 a 20) - Neocolonialismo, Antecedentes da I Guerra e I Guerra Mundial' }
+          ],
+          'Ciências': [
+            { date: '14 de Outubro', event: 'Teste 1 (5,0 pontos)' },
+            { date: '26 a 30 de Outubro', event: 'Quiz Prático (3,0 pontos)' },
+            { date: '11 de Novembro', event: 'Teste 2 (5,0 pontos)' },
+            { date: '02 de Dezembro', event: 'Exame Chūnin: Prova (Questões 1 a 20)' }
+          ],
+          'Arte': [
+            { date: '30 de Setembro', event: 'Teste 1' },
+            { date: '21 de Outubro', event: 'Teste 2' },
+            { date: '03 de Dezembro', event: 'Exame Chūnin: Prova (Questões 21 a 30)' }
+          ],
+          'Educação Física': [
+            { date: '27 de Novembro', event: 'Exame Chūnin: Prova (Questões 21 a 30)' }
           ]
       }
     };
@@ -1005,7 +1067,70 @@
           n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
           n3: 10
         }],
-        tri3: [] // Placeholder
+        tri3: [{
+          name: 'Redação',
+          n1: [{ name: 'Projeto', max: 7 }, { name: 'Atividades', max: 3 }],
+          n2: [{ name: 'Teste', max: 7 }, { name: 'Reescrita', max: 3 }],
+          n3: 10
+        }, {
+          name: 'Português',
+          n1: [{ name: 'PH', max: 1 }, { name: 'Ativ. Casa/Classe', max: 4 }, { name: 'Projeto', max: 5 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Matemática',
+          n1: [{ name: 'PH', max: 1 }, { name: 'Ativ. Sala', max: 6 }, { name: 'Projeto', max: 3 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Inglês',
+          n1: [{ name: 'Projeto', max: 5 }, { name: 'Livro', max: 2 }, { name: 'Comport.', max: 3 }],
+          n2: [{ name: 'Teste', max: 10 }],
+          n3: 10
+        }, {
+          name: 'Geografia',
+          n1: [{ name: 'Mód/Caderno', max: 4 }, { name: 'Trab. Grupo', max: 4 }, { name: 'PH', max: 2 }],
+          n2: [{ name: 'Teste', max: 10 }],
+          n3: 10
+        }, {
+          name: 'Arte',
+          n1: [{ name: 'Ativ/Proj.', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Filosofia',
+          n1: [{ name: 'Comport.', max: 2 }, { name: 'Ex. Livro', max: 3 }, { name: 'Cenas Filos.', max: 5 }],
+          n2: [{ name: 'Teste', max: 10 }],
+          n3: 10
+        }, {
+          name: 'Ciências',
+          n1: [{ name: 'Módulos', max: 2 }, { name: 'Folhas', max: 3 }, { name: 'PH', max: 1 }, { name: 'Quiz Prático', max: 3 }, { name: 'Caderno', max: 1 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'História',
+          n1: [{ name: 'PH', max: 1 }, { name: 'Ativ. Sala', max: 6 }, { name: 'Projeto', max: 3 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Educação Física',
+          shortName: 'Ed. Física',
+          n1: [{ name: 'Atividades', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Ensino Religioso',
+          shortName: 'Ens. Religioso',
+          n1: [{ name: 'Atividades', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }, {
+          name: 'Projeto de Vida',
+          shortName: 'Proj. de Vida',
+          n1: [{ name: 'Atividades', max: 10 }],
+          n2: [{ name: 'Teste 1', max: 5 }, { name: 'Teste 2', max: 5 }],
+          n3: 10
+        }]
     };
     
     // O subjects atual lê da matriz baseada no trimestre atual
